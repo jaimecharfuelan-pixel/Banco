@@ -1,0 +1,374 @@
+[
+  {
+    "ContainingType": "controller_admin",
+    "Method": "CrearCuenta",
+    "RelativePath": "api/admin/crear-cuenta",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "CrearCuentaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "controller_admin",
+    "Method": "GetSolicitudes",
+    "RelativePath": "api/admin/solicitudes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "controller_autenticacion",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cajero",
+    "Method": "CambiarEstado",
+    "RelativePath": "api/cajero/cambiar-estado",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.model_CajeroCambiarEstado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cajero",
+    "Method": "Crear",
+    "RelativePath": "api/cajero/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.model_CajeroCrear",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cajero",
+    "Method": "Descontar",
+    "RelativePath": "api/cajero/descontar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.model_CajeroRecargar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cajero",
+    "Method": "Listar",
+    "RelativePath": "api/cajero/listar/{idSucursal}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idSucursal",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cajero",
+    "Method": "Recargar",
+    "RelativePath": "api/cajero/recargar",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.model_CajeroRecargar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_actualizarCedula",
+    "RelativePath": "api/controller_Cliente/service_actualizarCedula",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cliente.model_ClienteActualizarCedula",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_actualizarCorreo",
+    "RelativePath": "api/controller_Cliente/service_actualizarCorreo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cliente.model_ClienteActualizarCorreo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_actualizarDatosCliente",
+    "RelativePath": "api/controller_Cliente/service_actualizarDatosCliente",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cliente.model_ClienteActualizarDatos",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_actualizarNombre",
+    "RelativePath": "api/controller_Cliente/service_actualizarNombre",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cliente.model_ClienteActualizarNombre",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_actualizarTelefono",
+    "RelativePath": "api/controller_Cliente/service_actualizarTelefono",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cliente.model_ClienteActualizarTelefono",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cliente",
+    "Method": "service_solicitarCuenta",
+    "RelativePath": "api/controller_Cliente/service_solicitarCuenta",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "prm_request",
+        "Type": "BancoApi.Models.model_ClienteRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_actualizarCuenta",
+    "RelativePath": "api/controller_Cuenta/service_actualizarCuenta",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuenta.model_CuentaActualizar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_cambiarContrasena",
+    "RelativePath": "api/controller_Cuenta/service_cambiarContrasena",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuenta.model_CuentaCambiarContrasenaCuenta",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_cambiarSaldo",
+    "RelativePath": "api/controller_Cuenta/service_cambiarSaldo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuenta.model_CuentaCambiarSaldo",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_consultarPorCliente",
+    "RelativePath": "api/controller_Cuenta/service_consultarPorCliente",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuenta.model_CuentaConsultarPorCliente",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_consultarPorId",
+    "RelativePath": "api/controller_Cuenta/service_consultarPorId",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuenta.model_CuentaConsultarPorId",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuenta",
+    "Method": "service_eliminarCuenta",
+    "RelativePath": "api/controller_Cuenta/service_eliminarCuenta/{idCuenta}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCuenta",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Sucursal",
+    "Method": "crear",
+    "RelativePath": "api/sucursal/crear",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BancoApi.Models.model_SucursalCrear",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Sucursal",
+    "Method": "editarEstado",
+    "RelativePath": "api/sucursal/editar-estado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.model_SucursalCambiarEstado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Sucursal",
+    "Method": "eliminar",
+    "RelativePath": "api/sucursal/eliminar/{idSucursal}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idSucursal",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Sucursal",
+    "Method": "listar",
+    "RelativePath": "api/sucursal/listar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

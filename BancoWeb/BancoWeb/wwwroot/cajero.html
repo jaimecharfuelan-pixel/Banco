@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero Automático — Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        /* Estilos para el cajero realista */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #2c2c2c;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .atm-machine {
+            width: 100%;
+            max-width: 1200px;
+            background: linear-gradient(180deg, #4a4a4a 0%, #2d2d2d 100%);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+            margin: 20px;
+            position: relative;
+        }
+
+        .atm-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .atm-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--color-primary);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .atm-subtitle {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        .atm-screen-container {
+            background: #1a1a1a;
+            border: 8px solid #3a3a3a;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.9);
+        }
+
+        .atm-screen {
+            background: white;
+            border-radius: 15px;
+            padding: 50px 40px;
+            min-height: 600px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .atm-screen-content {
+            color: #333;
+            font-size: 20px;
+            line-height: 2;
+        }
+
+        .atm-screen-content.center {
+            text-align: center;
+        }
+
+        .atm-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .atm-logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .atm-instruction {
+            text-align: center;
+            font-size: 22px;
+            color: #555;
+            margin: 40px 0;
+            font-weight: 600;
+        }
+
+        .atm-menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .atm-menu-item {
+            background: var(--color-primary);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .atm-menu-item:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .atm-form {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .atm-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .atm-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .atm-input {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 18px;
+            color: #333;
+            font-size: 20px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        .atm-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+        }
+
+        .atm-input::placeholder {
+            color: #999;
+        }
+
+        .atm-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .atm-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .atm-btn.primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .atm-btn.primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .atm-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .atm-btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .atm-amount-display {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin: 40px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .atm-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .atm-key {
+            background: #f8f9fa;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .atm-key:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .atm-key:active {
+            transform: scale(0.98);
+        }
+
+        .atm-key.clear {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .atm-key.clear:hover {
+            background: #c82333;
+            border-color: #c82333;
+        }
+
+        .atm-key.confirm {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .atm-key.confirm:hover {
+            background: #218838;
+            border-color: #218838;
+        }
+
+        .atm-back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .atm-back-btn:hover {
+            background: #5a6268;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .atm-error {
+            color: #dc3545;
+            font-size: 16px;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Botones físicos laterales simulados */
+        .atm-side-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .atm-side-button-left,
+        .atm-side-button-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .atm-physical-button {
+            width: 60px;
+            height: 60px;
+            background: #4a4a4a;
+            border: 3px solid #5a5a5a;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .atm-physical-button:hover {
+            background: #5a5a5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+        }
+
+        .atm-physical-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <button class="atm-back-btn" onclick="window.location.href='cuenta.html'">← Volver</button>
+    
+    <div class="atm-machine">
+        <div class="atm-header">
+            <div class="atm-title" id="atmTitle">CAJERO AUTOMÁTICO</div>
+            <div class="atm-subtitle" id="atmSubtitle">Tu Banco</div>
+        </div>
+
+        <div class="atm-screen-container">
+            <div class="atm-screen">
+                <!-- Pantalla de autenticación -->
+                <div id="loginScreen">
+                    <div class="atm-logo">
+                        <div class="atm-logo-text">TU BANCO</div>
+                    </div>
+                    <div class="atm-instruction">Por favor ingrese sus datos</div>
+                    <div class="atm-form">
+                        <div class="atm-form-group">
+                            <label class="atm-label">ID de Tarjeta</label>
+                            <input type="text" class="atm-input" id="cardId" placeholder="Ingrese el ID de la tarjeta" maxlength="20">
+                            <div class="atm-error" id="cardIdError"></div>
+                        </div>
+                        <div class="atm-form-group">
+                            <label class="atm-label">CVV</label>
+                            <input type="password" class="atm-input" id="cardCVV" placeholder="Ingrese el CVV" maxlength="3">
+                            <div class="atm-error" id="cvvError"></div>
+                        </div>
+                        <div class="atm-buttons">
+                            <button class="atm-btn secondary" onclick="window.location.href='cuenta.html'">Cancelar</button>
+                            <button class="atm-btn primary" onclick="authenticateCard()">Continuar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menú principal -->
+                <div class="hidden" id="mainMenuScreen">
+                    <div class="atm-logo">
+                        <div class="atm-logo-text">TU BANCO</div>
+                    </div>
+                    <div class="atm-instruction">Por favor seleccione su transacción</div>
+                    <div class="atm-menu" id="mainMenu">
+                        <div class="atm-menu-item" onclick="showWithdrawMenu()">Retirar</div>
+                        <div class="atm-menu-item" onclick="showDepositMenu()">Depositar</div>
+                        <div class="atm-menu-item" onclick="showBalanceMenu()">Consultar</div>
+                        <div class="atm-menu-item" onclick="showTransferMenu()">Transferir</div>
+                    </div>
+                </div>
+
+                <!-- Menú de retiro -->
+                <div class="hidden" id="withdrawMenu">
+                    <div class="atm-screen-content center">
+                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 40px; color: var(--color-primary);">RETIRAR DINERO</div>
+                        <div style="font-size: 20px; color: #666; margin-bottom: 30px;">Ingrese el monto a retirar:</div>
+                    </div>
+                    <div class="atm-amount-display" id="withdrawAmount">$ 0</div>
+                    <div class="atm-keypad">
+                        <div class="atm-key" onclick="addDigit('1')">1</div>
+                        <div class="atm-key" onclick="addDigit('2')">2</div>
+                        <div class="atm-key" onclick="addDigit('3')">3</div>
+                        <div class="atm-key" onclick="addDigit('4')">4</div>
+                        <div class="atm-key" onclick="addDigit('5')">5</div>
+                        <div class="atm-key" onclick="addDigit('6')">6</div>
+                        <div class="atm-key" onclick="addDigit('7')">7</div>
+                        <div class="atm-key" onclick="addDigit('8')">8</div>
+                        <div class="atm-key" onclick="addDigit('9')">9</div>
+                        <div class="atm-key clear" onclick="clearAmount()">C</div>
+                        <div class="atm-key" onclick="addDigit('0')">0</div>
+                        <div class="atm-key confirm" onclick="confirmWithdraw()">✓</div>
+                    </div>
+                    <div class="atm-buttons">
+                        <button class="atm-btn secondary" onclick="showMainMenu()">Cancelar</button>
+                    </div>
+                </div>
+
+                <!-- Menú de depósito -->
+                <div class="hidden" id="depositMenu">
+                    <div class="atm-screen-content center">
+                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 40px; color: var(--color-primary);">DEPOSITAR DINERO</div>
+                        <div style="font-size: 20px; color: #666; margin-bottom: 30px;">Ingrese el monto a depositar:</div>
+                    </div>
+                    <div class="atm-amount-display" id="depositAmount">$ 0</div>
+                    <div class="atm-keypad">
+                        <div class="atm-key" onclick="addDigitDeposit('1')">1</div>
+                        <div class="atm-key" onclick="addDigitDeposit('2')">2</div>
+                        <div class="atm-key" onclick="addDigitDeposit('3')">3</div>
+                        <div class="atm-key" onclick="addDigitDeposit('4')">4</div>
+                        <div class="atm-key" onclick="addDigitDeposit('5')">5</div>
+                        <div class="atm-key" onclick="addDigitDeposit('6')">6</div>
+                        <div class="atm-key" onclick="addDigitDeposit('7')">7</div>
+                        <div class="atm-key" onclick="addDigitDeposit('8')">8</div>
+                        <div class="atm-key" onclick="addDigitDeposit('9')">9</div>
+                        <div class="atm-key clear" onclick="clearDepositAmount()">C</div>
+                        <div class="atm-key" onclick="addDigitDeposit('0')">0</div>
+                        <div class="atm-key confirm" onclick="confirmDeposit()">✓</div>
+                    </div>
+                    <div class="atm-buttons">
+                        <button class="atm-btn secondary" onclick="showMainMenu()">Cancelar</button>
+                    </div>
+                </div>
+
+                <!-- Consultar saldo -->
+                <div class="hidden" id="balanceMenu">
+                    <div class="atm-screen-content center">
+                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 40px; color: var(--color-primary);">CONSULTAR SALDO</div>
+                        <div style="font-size: 20px; color: #666; margin-bottom: 30px;">Su saldo disponible es:</div>
+                        <div class="atm-amount-display" id="balanceDisplay">$ 0</div>
+                    </div>
+                    <div class="atm-buttons">
+                        <button class="atm-btn primary" onclick="showMainMenu()">Volver</button>
+                    </div>
+                </div>
+
+                <!-- Transferir -->
+                <div class="hidden" id="transferMenu">
+                    <div class="atm-screen-content center">
+                        <div style="font-size: 28px; font-weight: bold; margin-bottom: 40px; color: var(--color-primary);">TRANSFERIR</div>
+                    </div>
+                    <div class="atm-form">
+                        <div class="atm-form-group">
+                            <label class="atm-label">Cuenta destino</label>
+                            <input type="text" class="atm-input" id="transferAccount" placeholder="Ingrese la cuenta destino">
+                        </div>
+                        <div style="font-size: 20px; color: #666; text-align: center; margin: 30px 0;">Monto a transferir:</div>
+                        <div class="atm-amount-display" id="transferAmount">$ 0</div>
+                        <div class="atm-keypad">
+                            <div class="atm-key" onclick="addDigitTransfer('1')">1</div>
+                            <div class="atm-key" onclick="addDigitTransfer('2')">2</div>
+                            <div class="atm-key" onclick="addDigitTransfer('3')">3</div>
+                            <div class="atm-key" onclick="addDigitTransfer('4')">4</div>
+                            <div class="atm-key" onclick="addDigitTransfer('5')">5</div>
+                            <div class="atm-key" onclick="addDigitTransfer('6')">6</div>
+                            <div class="atm-key" onclick="addDigitTransfer('7')">7</div>
+                            <div class="atm-key" onclick="addDigitTransfer('8')">8</div>
+                            <div class="atm-key" onclick="addDigitTransfer('9')">9</div>
+                            <div class="atm-key clear" onclick="clearTransferAmount()">C</div>
+                            <div class="atm-key" onclick="addDigitTransfer('0')">0</div>
+                            <div class="atm-key confirm" onclick="confirmTransfer()">✓</div>
+                        </div>
+                    </div>
+                    <div class="atm-buttons">
+                        <button class="atm-btn secondary" onclick="showMainMenu()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAmount = 0;
+        let currentDepositAmount = 0;
+        let currentTransferAmount = 0;
+        let selectedATM = null;
+        let authenticatedCard = null;
+
+        // Cargar información del cajero
+        window.addEventListener('DOMContentLoaded', function() {
+            try {
+                const atmData = localStorage.getItem("selectedATM");
+                if (atmData) {
+                    selectedATM = JSON.parse(atmData);
+                    document.getElementById("atmSubtitle").textContent = selectedATM.name;
+                }
+            } catch (e) {
+                console.error("Error al cargar cajero:", e);
+            }
+        });
+
+        // Autenticar tarjeta
+        function authenticateCard() {
+            const cardId = document.getElementById("cardId").value.trim();
+            const cardCVV = document.getElementById("cardCVV").value.trim();
+            
+            // Limpiar errores
+            document.getElementById("cardIdError").textContent = "";
+            document.getElementById("cvvError").textContent = "";
+            
+            let hasError = false;
+            
+            if (!cardId) {
+                document.getElementById("cardIdError").textContent = "Por favor ingrese el ID de la tarjeta";
+                hasError = true;
+            }
+            
+            if (!cardCVV) {
+                document.getElementById("cvvError").textContent = "Por favor ingrese el CVV";
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            
+            // Verificar tarjeta en localStorage
+            let cards = [];
+            try {
+                const cardsStr = localStorage.getItem("userCards");
+                if (cardsStr) {
+                    cards = JSON.parse(cardsStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar tarjetas:", e);
+            }
+            
+            // Buscar tarjeta por ID (usando el número de tarjeta sin espacios)
+            const cardIdClean = cardId.replace(/\s/g, '');
+            const foundCard = cards.find(card => {
+                const cardNumberClean = card.number.replace(/\s/g, '');
+                return cardNumberClean.includes(cardIdClean) || card.id.toString() === cardId;
+            });
+            
+            if (!foundCard) {
+                document.getElementById("cardIdError").textContent = "Tarjeta no encontrada";
+                return;
+            }
+            
+            // Verificar CVV
+            if (foundCard.cvv !== cardCVV) {
+                document.getElementById("cvvError").textContent = "CVV incorrecto";
+                return;
+            }
+            
+            // Autenticación exitosa
+            authenticatedCard = foundCard;
+            document.getElementById("loginScreen").classList.add("hidden");
+            document.getElementById("mainMenuScreen").classList.remove("hidden");
+        }
+
+        function showMainMenu() {
+            document.getElementById("mainMenuScreen").classList.remove("hidden");
+            document.getElementById("withdrawMenu").classList.add("hidden");
+            document.getElementById("depositMenu").classList.add("hidden");
+            document.getElementById("balanceMenu").classList.add("hidden");
+            document.getElementById("transferMenu").classList.add("hidden");
+        }
+
+        function showWithdrawMenu() {
+            document.getElementById("mainMenuScreen").classList.add("hidden");
+            document.getElementById("withdrawMenu").classList.remove("hidden");
+            currentAmount = 0;
+            updateWithdrawDisplay();
+        }
+
+        function showDepositMenu() {
+            document.getElementById("mainMenuScreen").classList.add("hidden");
+            document.getElementById("depositMenu").classList.remove("hidden");
+            currentDepositAmount = 0;
+            updateDepositDisplay();
+        }
+
+        function showBalanceMenu() {
+            document.getElementById("mainMenuScreen").classList.add("hidden");
+            document.getElementById("balanceMenu").classList.remove("hidden");
+            
+            // Cargar saldo del usuario
+            let balance = 0;
+            try {
+                const usuarioStr = localStorage.getItem("usuario");
+                if (usuarioStr) {
+                    const usuario = JSON.parse(usuarioStr);
+                    balance = usuario.saldo || usuario.balance || 0;
+                }
+            } catch (e) {
+                console.error("Error al cargar saldo:", e);
+            }
+            
+            document.getElementById("balanceDisplay").textContent = formatCurrency(balance);
+        }
+
+        function showTransferMenu() {
+            document.getElementById("mainMenuScreen").classList.add("hidden");
+            document.getElementById("transferMenu").classList.remove("hidden");
+            currentTransferAmount = 0;
+            updateTransferDisplay();
+        }
+
+        function addDigit(digit) {
+            currentAmount = currentAmount * 10 + parseInt(digit);
+            if (currentAmount > 999999999) currentAmount = 999999999;
+            updateWithdrawDisplay();
+        }
+
+        function addDigitDeposit(digit) {
+            currentDepositAmount = currentDepositAmount * 10 + parseInt(digit);
+            if (currentDepositAmount > 999999999) currentDepositAmount = 999999999;
+            updateDepositDisplay();
+        }
+
+        function addDigitTransfer(digit) {
+            currentTransferAmount = currentTransferAmount * 10 + parseInt(digit);
+            if (currentTransferAmount > 999999999) currentTransferAmount = 999999999;
+            updateTransferDisplay();
+        }
+
+        function clearAmount() {
+            currentAmount = 0;
+            updateWithdrawDisplay();
+        }
+
+        function clearDepositAmount() {
+            currentDepositAmount = 0;
+            updateDepositDisplay();
+        }
+
+        function clearTransferAmount() {
+            currentTransferAmount = 0;
+            updateTransferDisplay();
+        }
+
+        function updateWithdrawDisplay() {
+            document.getElementById("withdrawAmount").textContent = formatCurrency(currentAmount);
+        }
+
+        function updateDepositDisplay() {
+            document.getElementById("depositAmount").textContent = formatCurrency(currentDepositAmount);
+        }
+
+        function updateTransferDisplay() {
+            document.getElementById("transferAmount").textContent = formatCurrency(currentTransferAmount);
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function confirmWithdraw() {
+            if (currentAmount <= 0) {
+                alert("Por favor ingrese un monto válido");
+                return;
+            }
+
+            alert(`✅ Retiro de ${formatCurrency(currentAmount)} procesado correctamente`);
+            addTransaction(-currentAmount, "Retiro en cajero");
+            showMainMenu();
+        }
+
+        function confirmDeposit() {
+            if (currentDepositAmount <= 0) {
+                alert("Por favor ingrese un monto válido");
+                return;
+            }
+
+            alert(`✅ Depósito de ${formatCurrency(currentDepositAmount)} procesado correctamente`);
+            addTransaction(currentDepositAmount, "Depósito en cajero");
+            showMainMenu();
+        }
+
+        function confirmTransfer() {
+            const account = document.getElementById("transferAccount").value;
+            if (!account) {
+                alert("Por favor ingrese la cuenta destino");
+                return;
+            }
+            if (currentTransferAmount <= 0) {
+                alert("Por favor ingrese un monto válido");
+                return;
+            }
+
+            alert(`✅ Transferencia de ${formatCurrency(currentTransferAmount)} a cuenta ${account} procesada correctamente`);
+            addTransaction(-currentTransferAmount, `Transferencia a cuenta ${account}`);
+            showMainMenu();
+        }
+
+        function addTransaction(amount, description) {
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+            }
+
+            const newTransaction = {
+                fecha: new Date().toISOString().split('T')[0],
+                monto: amount,
+                estado: "success",
+                descripcion: description
+            };
+
+            transactions.unshift(newTransaction);
+            localStorage.setItem("userTransactions", JSON.stringify(transactions));
+        }
+
+        // Permitir Enter para autenticar
+        document.getElementById("cardCVV").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                authenticateCard();
+            }
+        });
+    </script>
+</body>
+</html>

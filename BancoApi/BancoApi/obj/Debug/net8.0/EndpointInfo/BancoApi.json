@@ -1,0 +1,997 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "BancoApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/admin/solicitudes": {
+      "get": {
+        "tags": [
+          "controller_admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/crear-cuenta": {
+      "post": {
+        "tags": [
+          "controller_admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearCuentaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearCuentaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearCuentaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "controller_autenticacion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cajero/crear": {
+      "post": {
+        "tags": [
+          "controller_Cajero"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCrear"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCrear"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cajero/cambiar-estado": {
+      "put": {
+        "tags": [
+          "controller_Cajero"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCambiarEstado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCambiarEstado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroCambiarEstado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cajero/recargar": {
+      "put": {
+        "tags": [
+          "controller_Cajero"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cajero/descontar": {
+      "put": {
+        "tags": [
+          "controller_Cajero"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CajeroRecargar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cajero/listar/{idSucursal}": {
+      "get": {
+        "tags": [
+          "controller_Cajero"
+        ],
+        "parameters": [
+          {
+            "name": "idSucursal",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_solicitarCuenta": {
+      "post": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_actualizarDatosCliente": {
+      "put": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarDatos"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarDatos"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarDatos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_actualizarCorreo": {
+      "put": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCorreo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCorreo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCorreo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_actualizarNombre": {
+      "put": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarNombre"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarNombre"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarNombre"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_actualizarTelefono": {
+      "put": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarTelefono"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarTelefono"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarTelefono"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cliente/service_actualizarCedula": {
+      "put": {
+        "tags": [
+          "controller_Cliente"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCedula"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCedula"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_ClienteActualizarCedula"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_consultarPorCliente": {
+      "post": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorCliente"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorCliente"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorCliente"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_consultarPorId": {
+      "post": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorId"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorId"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaConsultarPorId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_actualizarCuenta": {
+      "put": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaActualizar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaActualizar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaActualizar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_cambiarSaldo": {
+      "put": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarSaldo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarSaldo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarSaldo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_cambiarContrasena": {
+      "put": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarContrasenaCuenta"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarContrasenaCuenta"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuentaCambiarContrasenaCuenta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuenta/service_eliminarCuenta/{idCuenta}": {
+      "delete": {
+        "tags": [
+          "controller_Cuenta"
+        ],
+        "parameters": [
+          {
+            "name": "idCuenta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sucursal/listar": {
+      "get": {
+        "tags": [
+          "controller_Sucursal"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sucursal/crear": {
+      "post": {
+        "tags": [
+          "controller_Sucursal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCrear"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCrear"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCrear"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sucursal/editar-estado": {
+      "post": {
+        "tags": [
+          "controller_Sucursal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCambiarEstado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCambiarEstado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_SucursalCambiarEstado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/sucursal/eliminar/{idSucursal}": {
+      "delete": {
+        "tags": [
+          "controller_Sucursal"
+        ],
+        "parameters": [
+          {
+            "name": "idSucursal",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CrearCuentaRequest": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "idAdministrador": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CajeroCambiarEstado": {
+        "type": "object",
+        "properties": {
+          "idCajero": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CajeroCrear": {
+        "type": "object",
+        "properties": {
+          "idSucursal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idAdministrador": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dineroInicial": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CajeroRecargar": {
+        "type": "object",
+        "properties": {
+          "idCajero": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monto": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteActualizarCedula": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteActualizarCorreo": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "nuevoCorreo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteActualizarDatos": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteActualizarNombre": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "nuevoNombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteActualizarTelefono": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_ClienteRequest": {
+        "type": "object",
+        "properties": {
+          "prm_nombre_cliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "prm_email_cliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "prm_telefono_cliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "prm_cedula_cliente": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuentaActualizar": {
+        "type": "object",
+        "properties": {
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "saldo": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuentaCambiarContrasenaCuenta": {
+        "type": "object",
+        "properties": {
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nuevaContrasena": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuentaCambiarSaldo": {
+        "type": "object",
+        "properties": {
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monto": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuentaConsultarPorCliente": {
+        "type": "object",
+        "properties": {
+          "idCliente": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuentaConsultarPorId": {
+        "type": "object",
+        "properties": {
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_SucursalCambiarEstado": {
+        "type": "object",
+        "properties": {
+          "idSucursal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_SucursalCrear": {
+        "type": "object",
+        "properties": {
+          "nombreSucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "direccionSucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefonoSucursal": {
+            "type": "string",
+            "nullable": true
+          },
+          "idAdministrador": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "controller_admin"
+    },
+    {
+      "name": "controller_autenticacion"
+    },
+    {
+      "name": "controller_Cajero"
+    },
+    {
+      "name": "controller_Cliente"
+    },
+    {
+      "name": "controller_Cuenta"
+    },
+    {
+      "name": "controller_Sucursal"
+    }
+  ]
+}

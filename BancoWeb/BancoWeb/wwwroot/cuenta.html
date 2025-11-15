@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta — Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        /* Estilos estilo Banco - Azul predominante */
+        .nequi-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nequi-container {
+                max-width: 100%;
+                padding: 0;
+            }
+        }
+
+        /* Header estilo Banco */
+        .nequi-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 30px 40px 40px 40px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nequi-header {
+                border-radius: 0 0 30px 30px;
+                padding: 20px 20px 30px 20px;
+                margin-bottom: 0;
+            }
+        }
+
+        .nequi-header::before {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .nequi-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nequi-greeting {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .nequi-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+        }
+
+        .nequi-balance-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nequi-disponible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .nequi-balance {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .nequi-balance {
+                font-size: 36px;
+            }
+        }
+
+        .nequi-total {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .nequi-tu-plata {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Contenido principal */
+        .nequi-content {
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            min-height: calc(100vh - 400px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .nequi-content {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+                border-radius: 30px 30px 0 0;
+                padding: 20px;
+            }
+        }
+
+        /* Paneles de navegación */
+        .nequi-panel {
+            display: none;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            min-height: calc(100vh - 400px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nequi-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nequi-panel {
+                margin-top: -20px;
+                border-radius: 30px 30px 0 0;
+                padding: 20px;
+            }
+        }
+
+        /* Tabla de transacciones */
+        .nequi-transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .nequi-transactions-table thead {
+            background: #f8f9fa;
+        }
+
+        .nequi-transactions-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nequi-transactions-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nequi-transactions-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .nequi-status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .nequi-status-badge.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .nequi-status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .nequi-status-badge.failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .nequi-amount {
+            font-weight: 600;
+        }
+
+        .nequi-amount.positive {
+            color: #28a745;
+        }
+
+        .nequi-amount.negative {
+            color: #dc3545;
+        }
+
+        /* Menú de opciones */
+        .nequi-menu-section {
+            margin-top: 0;
+        }
+
+        .nequi-menu-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nequi-menu-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nequi-menu-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: var(--color-primary);
+        }
+
+        .nequi-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nequi-menu-header span {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .nequi-chevron {
+            transition: transform 0.3s;
+        }
+
+        .nequi-menu-item.active .nequi-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Panel de editar datos */
+        .nequi-edit-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nequi-menu-item.active .nequi-edit-panel {
+            max-height: 2000px;
+            margin-top: 15px;
+        }
+
+        .nequi-data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nequi-data-item:last-child {
+            border-bottom: none;
+        }
+
+        .nequi-data-label {
+            font-size: 14px;
+            color: #666;
+            flex: 1;
+        }
+
+        .nequi-data-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-right: 10px;
+            flex: 1;
+            text-align: right;
+        }
+
+        .nequi-edit-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nequi-edit-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Formulario de edición */
+        .nequi-edit-form {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .nequi-data-item.editing .nequi-edit-form {
+            max-height: 200px;
+        }
+
+        .nequi-edit-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .nequi-save-btn {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nequi-save-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Botón flotante y menú */
+        .nequi-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .nequi-fab:hover {
+            background: var(--color-primary-hover);
+            transform: scale(1.1);
+        }
+
+        .nequi-fab.active {
+            transform: rotate(45deg);
+        }
+
+        /* Menú flotante estilo Nequi */
+        .nequi-fab-menu {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            min-width: 200px;
+            padding: 10px 0;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .nequi-fab-menu.active {
+            display: flex;
+        }
+
+        .nequi-fab-menu-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nequi-fab-menu-item:hover {
+            background: #f8f9fa;
+        }
+
+        .nequi-fab-menu-item:first-child {
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nequi-fab-menu-item:last-child {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        /* Modal de transferencia */
+        .nequi-transfer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nequi-transfer-modal.active {
+            display: flex;
+        }
+
+        .nequi-transfer-box {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .nequi-transfer-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+        }
+
+        .nequi-transfer-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nequi-transfer-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .nequi-transfer-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .nequi-transfer-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .nequi-transfer-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .nequi-transfer-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nequi-transfer-btn.close {
+            background: #6c757d;
+            color: white;
+        }
+
+        .nequi-transfer-btn.close:hover {
+            background: #5a6268;
+        }
+
+        .nequi-transfer-btn.send {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .nequi-transfer-btn.send:hover {
+            background: var(--color-primary-hover);
+        }
+
+        /* Estilos para sucursales y cajeros */
+        .nequi-branch-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .nequi-branch-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: var(--color-primary);
+        }
+
+        .nequi-branch-atms {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .nequi-branch-item.expanded .nequi-branch-atms {
+            max-height: 1000px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nequi-branch-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .nequi-branch-address {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .nequi-branch-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nequi-branch-btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .nequi-atm-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nequi-atm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .nequi-atm-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .nequi-atm-use-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nequi-atm-use-btn:hover {
+            background: #218838;
+        }
+
+        /* Navegación inferior */
+        .nequi-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .nequi-bottom-nav {
+                max-width: 100%;
+                gap: 0;
+            }
+        }
+
+        .nequi-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .nequi-nav-item.active {
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .nequi-nav-item span {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nequi-nav-item.active span {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .nequi-nav-icon {
+            font-size: 24px;
+        }
+
+        .nequi-nav-item.active .nequi-nav-icon {
+            color: var(--color-primary);
+        }
+
+        /* Ocultar datos sensibles */
+        .nequi-hidden {
+            filter: blur(5px);
+        }
+
+        .nequi-eye-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Sección de contraseña destacada */
+        .nequi-password-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid var(--color-primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 0;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+        }
+
+        .nequi-password-section .nequi-menu-header {
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .nequi-password-section .nequi-data-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 0;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .nequi-password-section .nequi-edit-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .nequi-password-warning {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #ffc107;
+        }
+
+        /* Estilos para sección de tarjetas */
+        .nequi-cards-section {
+            margin-top: 0;
+        }
+
+        .nequi-cards-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nequi-card-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .nequi-card-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .nequi-card-btn.secondary {
+            background: #6c757d;
+        }
+
+        .nequi-card-btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .nequi-cards-list {
+            margin-top: 20px;
+        }
+
+        .nequi-cards-category {
+            margin-bottom: 30px;
+        }
+
+        .nequi-cards-category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .nequi-card-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .nequi-card-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: var(--color-primary);
+        }
+
+        .nequi-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .nequi-card-info {
+            flex: 1;
+        }
+
+        .nequi-card-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .nequi-card-type {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .nequi-card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .nequi-card-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nequi-card-detail-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nequi-card-detail-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nequi-card-cvv-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nequi-card-cvv-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .nequi-card-cvv-hidden {
+            filter: blur(4px);
+            user-select: none;
+        }
+
+        .nequi-card-cvv-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nequi-card-cvv-btn:hover {
+            background: #f8f9fa;
+            border-color: var(--color-primary);
+        }
+
+        .nequi-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nequi-delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nequi-delete-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        /* Modal de confirmación */
+        .nequi-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nequi-confirm-modal.active {
+            display: flex;
+        }
+
+        .nequi-confirm-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .nequi-confirm-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .nequi-confirm-message {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .nequi-confirm-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .nequi-confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nequi-confirm-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .nequi-confirm-btn.cancel:hover {
+            background: #5a6268;
+        }
+
+        .nequi-confirm-btn.confirm {
+            background: #dc3545;
+            color: white;
+        }
+
+        .nequi-confirm-btn.confirm:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nequi-container">
+        <!-- Header estilo Nequi -->
+        <div class="nequi-header">
+            <div class="nequi-top-bar">
+                <div class="nequi-greeting">
+                    <span>👤</span>
+                    <span id="userGreeting">Hola, Usuario</span>
+                </div>
+            </div>
+
+            <div class="nequi-balance-section">
+                <div class="nequi-disponible">
+                    <span>Disponible</span>
+                    <button class="nequi-eye-btn" id="toggleBalance">👁️</button>
+                </div>
+                <div class="nequi-balance" id="balanceDisplay">$ 0,00</div>
+            </div>
+        </div>
+
+        <!-- Panel: Inicio -->
+        <div id="panelInicio" class="nequi-panel active">
+            <div class="nequi-content">
+                <!-- Columna izquierda: Tarjetas -->
+                <div class="nequi-menu-section nequi-cards-section">
+                    <div class="nequi-menu-title">💳 Tarjetas</div>
+                    
+                    <!-- Botones de acción -->
+                    <div class="nequi-cards-buttons">
+                        <button class="nequi-card-btn" onclick="createDebitCard()">
+                            <span>➕</span>
+                            <span>Crear una nueva tarjeta de débito digital</span>
+                        </button>
+                        <button class="nequi-card-btn secondary" onclick="requestCreditCard()">
+                            <span>📋</span>
+                            <span>Solicitar tarjeta de crédito</span>
+                        </button>
+                    </div>
+
+                    <!-- Listado de tarjetas -->
+                    <div class="nequi-cards-list" id="cardsList">
+                        <!-- Tarjetas Débito -->
+                        <div class="nequi-cards-category">
+                            <div class="nequi-cards-category-title">Tarjetas Débito</div>
+                            <div id="debitCardsList">
+                                <!-- Las tarjetas se agregarán dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Tarjetas Crédito -->
+                        <div class="nequi-cards-category">
+                            <div class="nequi-cards-category-title">Tarjetas Crédito</div>
+                            <div id="creditCardsList">
+                                <!-- Las tarjetas se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna derecha: Información adicional -->
+                <div class="nequi-menu-section">
+                    <div class="nequi-menu-title">📊 Resumen</div>
+                    <div style="text-align: center; padding: 40px; color: #999;">
+                        <p>Información adicional de tu cuenta</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Movimientos -->
+        <div id="panelMovimientos" class="nequi-panel">
+            <div class="nequi-menu-title">📄 Transacciones</div>
+            <table class="nequi-transactions-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody">
+                    <!-- Las transacciones se cargarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Panel: Servicios -->
+        <div id="panelServicios" class="nequi-panel">
+            <div class="nequi-menu-title">⚙️ Servicios</div>
+            <div style="text-align: center; padding: 40px; color: #999;">
+                <p>Servicios disponibles próximamente</p>
+            </div>
+        </div>
+
+        <!-- Panel: Configuración -->
+        <div id="panelConfiguracion" class="nequi-panel">
+            <div class="nequi-menu-section">
+                <div class="nequi-menu-title">⚙️ Configuración</div>
+                
+                <div class="nequi-menu-item" id="editDataMenu">
+                    <div class="nequi-menu-header">
+                        <span>✏️ Editar Datos Personales</span>
+                        <span class="nequi-chevron">▼</span>
+                    </div>
+                    
+                    <div class="nequi-edit-panel">
+                        <!-- Correo -->
+                        <div class="nequi-data-item" data-field="correo">
+                            <div class="nequi-data-label">Correo</div>
+                            <div class="nequi-data-value" id="value-correo">usuario@example.com</div>
+                            <button class="nequi-edit-btn" onclick="toggleEdit('correo')">Editar</button>
+                            <div class="nequi-edit-form">
+                                <input type="email" class="nequi-edit-input" id="input-correo" placeholder="Nuevo correo">
+                                <button class="nequi-save-btn" onclick="saveData('correo')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="nequi-data-item" data-field="nombre">
+                            <div class="nequi-data-label">Nombre</div>
+                            <div class="nequi-data-value" id="value-nombre">Usuario</div>
+                            <button class="nequi-edit-btn" onclick="toggleEdit('nombre')">Editar</button>
+                            <div class="nequi-edit-form">
+                                <input type="text" class="nequi-edit-input" id="input-nombre" placeholder="Nuevo nombre">
+                                <button class="nequi-save-btn" onclick="saveData('nombre')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="nequi-data-item" data-field="telefono">
+                            <div class="nequi-data-label">Teléfono</div>
+                            <div class="nequi-data-value" id="value-telefono">+57 300 000 0000</div>
+                            <button class="nequi-edit-btn" onclick="toggleEdit('telefono')">Editar</button>
+                            <div class="nequi-edit-form">
+                                <input type="tel" class="nequi-edit-input" id="input-telefono" placeholder="Nuevo teléfono">
+                                <button class="nequi-save-btn" onclick="saveData('telefono')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Cuenta -->
+                        <div class="nequi-data-item" data-field="cuenta">
+                            <div class="nequi-data-label">Número de Cuenta</div>
+                            <div class="nequi-data-value" id="value-cuenta">0000000000</div>
+                            <button class="nequi-edit-btn" onclick="toggleEdit('cuenta')">Editar</button>
+                            <div class="nequi-edit-form">
+                                <input type="text" class="nequi-edit-input" id="input-cuenta" placeholder="Nuevo número de cuenta">
+                                <button class="nequi-save-btn" onclick="saveData('cuenta')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Seguridad -->
+                <div style="margin-top: 30px;">
+                    <div class="nequi-menu-title" style="margin-top: 0;">🔒 Seguridad</div>
+                    
+                    <!-- Sección de contraseña destacada -->
+                    <div class="nequi-password-section">
+                        <div class="nequi-menu-header">
+                            <span>🔒 Cambiar Contraseña</span>
+                        </div>
+                        
+                        <div class="nequi-data-item" data-field="contraseña">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <div style="flex: 1;">
+                                    <div class="nequi-data-label" style="margin-bottom: 5px;">Contraseña actual</div>
+                                    <div class="nequi-data-value" id="value-contraseña" style="text-align: left; margin: 0;">••••••••</div>
+                                </div>
+                                <button class="nequi-edit-btn" onclick="toggleEdit('contraseña')" style="margin-left: 15px;">Cambiar</button>
+                            </div>
+                            <div class="nequi-edit-form">
+                                <input type="password" class="nequi-edit-input" id="input-contraseña-actual" placeholder="Contraseña actual">
+                                <input type="password" class="nequi-edit-input" id="input-contraseña" placeholder="Nueva contraseña">
+                                <input type="password" class="nequi-edit-input" id="input-contraseña-confirm" placeholder="Confirmar nueva contraseña">
+                                <div class="nequi-password-warning">
+                                    <span>⚠️</span>
+                                    <span>La contraseña debe tener al menos 8 caracteres</span>
+                                </div>
+                                <button class="nequi-save-btn" onclick="savePassword()">Guardar y cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar tarjeta -->
+        <div class="nequi-confirm-modal" id="confirmModal">
+            <div class="nequi-confirm-box">
+                <div class="nequi-confirm-title">Confirmar eliminación</div>
+                <div class="nequi-confirm-message" id="confirmMessage">
+                    ¿Está seguro que desea eliminar esta tarjeta? Esta acción no se puede deshacer.
+                </div>
+                <div class="nequi-confirm-buttons">
+                    <button class="nequi-confirm-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                    <button class="nequi-confirm-btn confirm" onclick="confirmDeleteCard()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón flotante con menú -->
+        <div class="nequi-fab" id="fabButton">$</div>
+        
+        <!-- Menú flotante -->
+        <div class="nequi-fab-menu" id="fabMenu">
+            <div class="nequi-fab-menu-item" onclick="openTransferModal()">
+                <span>🔄</span>
+                <span>Envia cuenta a cuenta</span>
+            </div>
+            <div class="nequi-fab-menu-item" onclick="openAtmMenu()">
+                <span>🏧</span>
+                <span>Ir a cajero</span>
+            </div>
+        </div>
+
+        <!-- Modal de transferencia -->
+        <div class="nequi-transfer-modal" id="transferModal">
+            <div class="nequi-transfer-box">
+                <div class="nequi-transfer-title">Transacción</div>
+                <form class="nequi-transfer-form" id="transferForm">
+                    <div>
+                        <label class="nequi-transfer-label">ID / Cuenta de destino</label>
+                        <input type="text" class="nequi-transfer-input" id="transferDestination" placeholder="Ingrese el ID o número de cuenta" required>
+                    </div>
+                    <div>
+                        <label class="nequi-transfer-label">Monto</label>
+                        <input type="number" class="nequi-transfer-input" id="transferAmount" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    <div>
+                        <label class="nequi-transfer-label">Descripción</label>
+                        <input type="text" class="nequi-transfer-input" id="transferDescription" placeholder="Descripción de la transacción" required>
+                    </div>
+                    <div class="nequi-transfer-buttons">
+                        <button type="button" class="nequi-transfer-btn close" onclick="closeTransferModal()">Cerrar</button>
+                        <button type="submit" class="nequi-transfer-btn send">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de cajero (sucursales) -->
+        <div class="nequi-transfer-modal" id="atmModal">
+            <div class="nequi-transfer-box" style="max-width: 600px;">
+                <div class="nequi-transfer-title">🏧 Sucursales</div>
+                <div id="atmBranchesList" style="max-height: 500px; overflow-y: auto;">
+                    <!-- Las sucursales se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="nequi-bottom-nav">
+            <div class="nequi-nav-item active" data-panel="panelInicio">
+                <div class="nequi-nav-icon">🏠</div>
+                <span>Inicio</span>
+            </div>
+            <div class="nequi-nav-item" data-panel="panelMovimientos">
+                <div class="nequi-nav-icon">📄</div>
+                <span>Movimientos</span>
+            </div>
+            <div class="nequi-nav-item" data-panel="panelServicios">
+                <div class="nequi-nav-icon">⚙️</div>
+                <span>Servicios</span>
+            </div>
+            <div class="nequi-nav-item" data-panel="panelConfiguracion">
+                <div class="nequi-nav-icon">🔧</div>
+                <span>Configuración</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos del usuario desde localStorage
+        let usuario = null;
+        let cards = []; // Array para almacenar las tarjetas
+        let cardToDelete = null; // Tarjeta que se va a eliminar
+
+        // Cargar tarjetas desde localStorage
+        function loadCards() {
+            try {
+                const cardsStr = localStorage.getItem("userCards");
+                if (cardsStr) {
+                    cards = JSON.parse(cardsStr);
+                } else {
+                    // Tarjetas de ejemplo si no hay ninguna
+                    cards = [];
+                }
+                renderCards();
+            } catch (e) {
+                console.error("Error al cargar tarjetas:", e);
+                cards = [];
+                renderCards();
+            }
+        }
+
+        // Guardar tarjetas en localStorage
+        function saveCards() {
+            localStorage.setItem("userCards", JSON.stringify(cards));
+        }
+
+        // Generar número de tarjeta aleatorio
+        function generateCardNumber() {
+            let number = "";
+            for (let i = 0; i < 4; i++) {
+                number += Math.floor(1000 + Math.random() * 9000);
+                if (i < 3) number += " ";
+            }
+            return number;
+        }
+
+        // Generar CVV aleatorio
+        function generateCVV() {
+            return Math.floor(100 + Math.random() * 900).toString();
+        }
+
+        // Generar fecha de emisión (fecha actual)
+        function generateIssueDate() {
+            const now = new Date();
+            return now.toISOString().split('T')[0];
+        }
+
+        // Generar fecha de vencimiento (3 años desde la emisión)
+        function generateExpiryDate(issueDate) {
+            const issue = new Date(issueDate);
+            const expiry = new Date(issue);
+            expiry.setFullYear(expiry.getFullYear() + 3);
+            return expiry.toISOString().split('T')[0];
+        }
+
+        // Formatear fecha para mostrar
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-CO', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        }
+
+        // Renderizar tarjetas
+        function renderCards() {
+            const debitList = document.getElementById("debitCardsList");
+            const creditList = document.getElementById("creditCardsList");
+
+            // Limpiar listas
+            debitList.innerHTML = "";
+            creditList.innerHTML = "";
+
+            // Separar tarjetas por tipo
+            const debitCards = cards.filter(card => card.type === "debit");
+            const creditCards = cards.filter(card => card.type === "credit");
+
+            // Renderizar tarjetas débito
+            if (debitCards.length === 0) {
+                debitList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No tienes tarjetas de débito</div>';
+            } else {
+                debitCards.forEach((card) => {
+                    const cardElement = createCardElement(card);
+                    debitList.appendChild(cardElement);
+                });
+            }
+
+            // Renderizar tarjetas crédito
+            if (creditCards.length === 0) {
+                creditList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No tienes tarjetas de crédito</div>';
+            } else {
+                creditCards.forEach((card) => {
+                    const cardElement = createCardElement(card);
+                    creditList.appendChild(cardElement);
+                });
+            }
+        }
+
+        // Crear elemento de tarjeta
+        function createCardElement(card) {
+            const div = document.createElement("div");
+            div.className = "nequi-card-item";
+            
+            // Asegurar que la tarjeta tenga los campos necesarios
+            if (!card.issueDate) card.issueDate = generateIssueDate();
+            if (!card.expiryDate) card.expiryDate = generateExpiryDate(card.issueDate);
+            if (!card.cvv) card.cvv = generateCVV();
+            
+            const cvvId = `cvv-${card.id}`;
+            const cvvVisible = card.cvvVisible || false;
+            
+            div.innerHTML = `
+                <div class="nequi-card-header">
+                    <div class="nequi-card-info">
+                        <div class="nequi-card-number">${card.number}</div>
+                        <div class="nequi-card-type">${card.type === "debit" ? "Tarjeta Débito" : "Tarjeta Crédito"}</div>
+                    </div>
+                    <div class="nequi-card-actions">
+                        ${card.type === "debit" ? `<button class="nequi-delete-btn" onclick="showDeleteConfirm(${card.id})">Eliminar</button>` : ''}
+                    </div>
+                </div>
+                <div class="nequi-card-details">
+                    <div class="nequi-card-detail-item">
+                        <div class="nequi-card-detail-label">Fecha de Emisión</div>
+                        <div class="nequi-card-detail-value">${formatDate(card.issueDate)}</div>
+                    </div>
+                    <div class="nequi-card-detail-item">
+                        <div class="nequi-card-detail-label">Fecha de Vencimiento</div>
+                        <div class="nequi-card-detail-value">${formatDate(card.expiryDate)}</div>
+                    </div>
+                    <div class="nequi-card-detail-item">
+                        <div class="nequi-card-detail-label">CVV</div>
+                        <div class="nequi-card-cvv-container">
+                            <span class="nequi-card-cvv-value ${!cvvVisible ? 'nequi-card-cvv-hidden' : ''}" id="${cvvId}">${card.cvv}</span>
+                            <button class="nequi-card-cvv-btn" onclick="toggleCVV(${card.id})" title="${cvvVisible ? 'Ocultar' : 'Mostrar'} CVV">
+                                ${cvvVisible ? '👁️' : '👁️‍🗨️'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        // Toggle CVV visibility
+        function toggleCVV(cardId) {
+            const card = cards.find(c => c.id === cardId);
+            if (card) {
+                card.cvvVisible = !card.cvvVisible;
+                saveCards();
+                
+                const cvvElement = document.getElementById(`cvv-${cardId}`);
+                const btn = cvvElement.nextElementSibling;
+                
+                if (card.cvvVisible) {
+                    cvvElement.classList.remove('nequi-card-cvv-hidden');
+                    btn.innerHTML = '👁️';
+                    btn.title = 'Ocultar CVV';
+                } else {
+                    cvvElement.classList.add('nequi-card-cvv-hidden');
+                    btn.innerHTML = '👁️‍🗨️';
+                    btn.title = 'Mostrar CVV';
+                }
+            }
+        }
+
+        // Crear tarjeta de débito
+        function createDebitCard() {
+            const issueDate = generateIssueDate();
+            const newCard = {
+                id: Date.now(),
+                number: generateCardNumber(),
+                type: "debit",
+                issueDate: issueDate,
+                expiryDate: generateExpiryDate(issueDate),
+                cvv: generateCVV(),
+                cvvVisible: false,
+                createdAt: new Date().toISOString()
+            };
+            cards.push(newCard);
+            saveCards();
+            renderCards();
+            alert("✅ Tarjeta débito creada");
+        }
+
+        // Solicitar tarjeta de crédito
+        function requestCreditCard() {
+            alert("📋 Tu solicitud de tarjeta de crédito ha sido enviada. Te notificaremos cuando sea aprobada.");
+        }
+
+        // Mostrar modal de confirmación para eliminar
+        function showDeleteConfirm(cardId) {
+            const card = cards.find(c => c.id === cardId);
+            if (card && card.type === "debit") {
+                cardToDelete = cardId;
+                document.getElementById("confirmMessage").textContent = 
+                    `¿Está seguro que desea eliminar la tarjeta de débito ${card.number}? Esta acción no se puede deshacer.`;
+                document.getElementById("confirmModal").classList.add("active");
+            }
+        }
+
+        // Cerrar modal de confirmación
+        function closeConfirmModal() {
+            document.getElementById("confirmModal").classList.remove("active");
+            cardToDelete = null;
+        }
+
+        // Confirmar eliminación de tarjeta
+        function confirmDeleteCard() {
+            if (cardToDelete !== null) {
+                const index = cards.findIndex(c => c.id === cardToDelete);
+                if (index !== -1) {
+                    cards.splice(index, 1);
+                    saveCards();
+                    renderCards();
+                    closeConfirmModal();
+                    alert("✅ Tarjeta eliminada correctamente");
+                }
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById("confirmModal").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+        // Botón flotante y menú
+        const fabButton = document.getElementById("fabButton");
+        const fabMenu = document.getElementById("fabMenu");
+
+        fabButton.addEventListener("click", function(e) {
+            e.stopPropagation();
+            fabButton.classList.toggle("active");
+            fabMenu.classList.toggle("active");
+        });
+
+        // Cerrar menú al hacer clic fuera
+        document.addEventListener("click", function(e) {
+            if (!fabButton.contains(e.target) && !fabMenu.contains(e.target)) {
+                fabButton.classList.remove("active");
+                fabMenu.classList.remove("active");
+            }
+        });
+
+        // Abrir modal de transferencia
+        function openTransferModal() {
+            document.getElementById("transferModal").classList.add("active");
+            fabButton.classList.remove("active");
+            fabMenu.classList.remove("active");
+        }
+
+        // Abrir menú de cajero
+        function openAtmMenu() {
+            document.getElementById("atmModal").classList.add("active");
+            fabButton.classList.remove("active");
+            fabMenu.classList.remove("active");
+            loadBranches();
+        }
+
+        // Cerrar modal de cajero
+        function closeAtmModal() {
+            document.getElementById("atmModal").classList.remove("active");
+            document.getElementById("atmBranchesList").innerHTML = "";
+        }
+
+        // Cargar sucursales
+        function loadBranches() {
+            const branchesList = document.getElementById("atmBranchesList");
+            
+            // Sucursales de ejemplo
+            const branches = [
+                { id: 1, name: "Sucursal Centro", address: "Calle 50 # 10-20, Centro", atms: [
+                    { id: 1, name: "Cajero 1" },
+                    { id: 2, name: "Cajero 2" },
+                    { id: 3, name: "Cajero 3" }
+                ]},
+                { id: 2, name: "Sucursal Norte", address: "Avenida 68 # 15-30, Norte", atms: [
+                    { id: 4, name: "Cajero 1" },
+                    { id: 5, name: "Cajero 2" }
+                ]},
+                { id: 3, name: "Sucursal Sur", address: "Carrera 30 # 20-40, Sur", atms: [
+                    { id: 6, name: "Cajero 1" },
+                    { id: 7, name: "Cajero 2" },
+                    { id: 8, name: "Cajero 3" },
+                    { id: 9, name: "Cajero 4" }
+                ]}
+            ];
+
+            branchesList.innerHTML = "";
+            
+            branches.forEach(branch => {
+                const branchDiv = document.createElement("div");
+                branchDiv.className = "nequi-branch-item";
+                branchDiv.id = `branch-${branch.id}`;
+                
+                // Crear lista de cajeros
+                const atmsList = branch.atms.map(atm => `
+                    <div class="nequi-atm-item" style="margin-bottom: 10px;">
+                        <div class="nequi-atm-name">${atm.name}</div>
+                        <button class="nequi-atm-use-btn" onclick="useATM(${atm.id}, '${atm.name}')">Usar cajero</button>
+                    </div>
+                `).join('');
+                
+                branchDiv.innerHTML = `
+                    <div class="nequi-branch-name">${branch.name}</div>
+                    <div class="nequi-branch-address">📍 ${branch.address}</div>
+                    <button class="nequi-branch-btn" onclick="toggleBranch(${branch.id})">
+                        Entrar en la sucursal
+                    </button>
+                    <div class="nequi-branch-atms">
+                        ${atmsList}
+                    </div>
+                `;
+                branchesList.appendChild(branchDiv);
+            });
+        }
+
+        // Toggle (desplegar/colapsar) sucursal
+        function toggleBranch(branchId) {
+            const branchDiv = document.getElementById(`branch-${branchId}`);
+            if (branchDiv) {
+                branchDiv.classList.toggle("expanded");
+                
+                // Cerrar otras sucursales expandidas
+                document.querySelectorAll(".nequi-branch-item").forEach(item => {
+                    if (item.id !== `branch-${branchId}`) {
+                        item.classList.remove("expanded");
+                    }
+                });
+            }
+        }
+
+        // Usar un cajero - redirigir a cajero.html
+        function useATM(atmId, atmName) {
+            // Guardar información del cajero seleccionado
+            localStorage.setItem("selectedATM", JSON.stringify({
+                id: atmId,
+                name: atmName
+            }));
+            
+            // Redirigir a la página del cajero
+            window.location.href = "cajero.html";
+        }
+
+        // Cerrar modal de transferencia
+        function closeTransferModal() {
+            document.getElementById("transferModal").classList.remove("active");
+            document.getElementById("transferForm").reset();
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById("transferModal").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closeTransferModal();
+            }
+        });
+
+        // Cerrar modal de cajero al hacer clic fuera
+        document.getElementById("atmModal").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closeAtmModal();
+            }
+        });
+
+        // Manejar envío de transferencia
+        document.getElementById("transferForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const destination = document.getElementById("transferDestination").value;
+            const amount = parseFloat(document.getElementById("transferAmount").value);
+            const description = document.getElementById("transferDescription").value;
+
+            if (!destination || !amount || !description) {
+                alert("Por favor complete todos los campos");
+                return;
+            }
+
+            if (amount <= 0) {
+                alert("El monto debe ser mayor a cero");
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para enviar la transferencia al servidor
+            // Por ahora solo mostramos un mensaje y agregamos la transacción al historial
+            
+            // Agregar transacción al historial
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+            }
+
+            const newTransaction = {
+                fecha: new Date().toISOString().split('T')[0],
+                monto: -amount,
+                estado: "success",
+                descripcion: description
+            };
+
+            transactions.unshift(newTransaction);
+            localStorage.setItem("userTransactions", JSON.stringify(transactions));
+
+            alert("✅ Transferencia enviada correctamente");
+            closeTransferModal();
+
+            // Si estamos en el panel de movimientos, recargar las transacciones
+            if (document.getElementById("panelMovimientos").classList.contains("active")) {
+                loadTransactions();
+            }
+        });
+
+        try {
+            const usuarioStr = localStorage.getItem("usuario");
+            if (usuarioStr) {
+                usuario = JSON.parse(usuarioStr);
+                loadUserData();
+            }
+        } catch (e) {
+            console.error("Error al cargar usuario:", e);
+        }
+
+        // Cargar tarjetas al iniciar
+        loadCards();
+
+        function loadUserData() {
+            if (!usuario) return;
+
+            // Actualizar saludo
+            const nombre = usuario.nombre_cliente || usuario.nombre || "Usuario";
+            document.getElementById("userGreeting").textContent = `Hola, ${nombre.split(" ")[0]}`;
+
+            // Actualizar datos
+            if (usuario.email) document.getElementById("value-correo").textContent = usuario.email;
+            if (usuario.nombre_cliente || usuario.nombre) {
+                document.getElementById("value-nombre").textContent = usuario.nombre_cliente || usuario.nombre;
+            }
+            if (usuario.telefono_cliente || usuario.telefono) {
+                document.getElementById("value-telefono").textContent = usuario.telefono_cliente || usuario.telefono;
+            }
+            if (usuario.numero_cuenta || usuario.cuenta) {
+                document.getElementById("value-cuenta").textContent = usuario.numero_cuenta || usuario.cuenta || "0000000000";
+            }
+            if (usuario.saldo || usuario.balance) {
+                const saldo = usuario.saldo || usuario.balance || 0;
+                document.getElementById("balanceDisplay").textContent = formatCurrency(saldo);
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2
+            }).format(amount);
+        }
+
+        // Toggle menú editar datos
+        document.getElementById("editDataMenu").addEventListener("click", function(e) {
+            if (!e.target.classList.contains("nequi-edit-btn") && !e.target.closest(".nequi-edit-form")) {
+                this.classList.toggle("active");
+            }
+        });
+
+        // Toggle edición de campo individual
+        function toggleEdit(field) {
+            const item = document.querySelector(`[data-field="${field}"]`);
+            const isEditing = item.classList.contains("editing");
+            
+            // Cerrar todos los demás campos en edición
+            document.querySelectorAll(".nequi-data-item.editing").forEach(el => {
+                if (el !== item) {
+                    el.classList.remove("editing");
+                }
+            });
+
+            // Toggle el campo actual
+            item.classList.toggle("editing");
+            
+            // Si se está abriendo, limpiar los inputs
+            if (!isEditing) {
+                if (field === "contraseña") {
+                    // Para contraseña, limpiar todos los campos
+                    document.getElementById("input-contraseña-actual").value = "";
+                    document.getElementById("input-contraseña").value = "";
+                    document.getElementById("input-contraseña-confirm").value = "";
+                    document.getElementById("input-contraseña-actual").focus();
+                } else {
+                    const currentValue = document.getElementById(`value-${field}`).textContent;
+                    const input = document.getElementById(`input-${field}`);
+                    input.value = currentValue;
+                    input.focus();
+                }
+            }
+        }
+
+        // Guardar datos
+        async function saveData(field) {
+            const input = document.getElementById(`input-${field}`);
+            const newValue = input.value.trim();
+            
+            if (!newValue) {
+                alert("Por favor ingrese un valor válido");
+                return;
+            }
+
+            // Validaciones específicas
+            if (field === "correo" && !newValue.includes("@")) {
+                alert("Por favor ingrese un correo válido");
+                return;
+            }
+
+            // Actualizar el valor mostrado
+            const valueElement = document.getElementById(`value-${field}`);
+            valueElement.textContent = newValue;
+
+            // Aquí puedes agregar la lógica para guardar en el servidor
+            // Por ahora solo actualizamos el localStorage
+            if (usuario) {
+                const fieldMap = {
+                    "correo": "email",
+                    "nombre": "nombre_cliente",
+                    "telefono": "telefono_cliente",
+                    "cuenta": "numero_cuenta"
+                };
+
+                const serverField = fieldMap[field];
+                if (serverField) {
+                    usuario[serverField] = newValue;
+                    localStorage.setItem("usuario", JSON.stringify(usuario));
+                }
+            }
+
+            // Cerrar el formulario de edición
+            document.querySelector(`[data-field="${field}"]`).classList.remove("editing");
+            
+            alert("✅ Datos guardados correctamente");
+        }
+
+        // Guardar contraseña con validación
+        async function savePassword() {
+            const currentPassword = document.getElementById("input-contraseña-actual").value;
+            const newPassword = document.getElementById("input-contraseña").value;
+            const confirmPassword = document.getElementById("input-contraseña-confirm").value;
+
+            // Validaciones
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert("Por favor complete todos los campos");
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                alert("La contraseña debe tener al menos 8 caracteres");
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para verificar la contraseña actual en el servidor
+            // Por ahora solo actualizamos el localStorage
+            if (usuario) {
+                usuario.contrasena = newPassword;
+                localStorage.setItem("usuario", JSON.stringify(usuario));
+            }
+
+            // Limpiar campos
+            document.getElementById("input-contraseña-actual").value = "";
+            document.getElementById("input-contraseña").value = "";
+            document.getElementById("input-contraseña-confirm").value = "";
+
+            // Cerrar el formulario de edición
+            document.querySelector(`[data-field="contraseña"]`).classList.remove("editing");
+            
+            alert("✅ Contraseña cambiada correctamente");
+        }
+
+        // Toggle balance visibility
+        let balanceVisible = true;
+        document.getElementById("toggleBalance").addEventListener("click", function() {
+            balanceVisible = !balanceVisible;
+            const balanceDisplay = document.getElementById("balanceDisplay");
+            if (balanceVisible) {
+                balanceDisplay.classList.remove("nequi-hidden");
+                this.textContent = "👁️";
+            } else {
+                balanceDisplay.classList.add("nequi-hidden");
+                this.textContent = "👁️‍🗨️";
+            }
+        });
+
+        // Navegación inferior - Cambiar entre paneles
+        document.querySelectorAll(".nequi-nav-item").forEach(item => {
+            item.addEventListener("click", function() {
+                const targetPanel = this.getAttribute("data-panel");
+                
+                // Remover active de todos los items de navegación
+                document.querySelectorAll(".nequi-nav-item").forEach(nav => {
+                    nav.classList.remove("active");
+                });
+                
+                // Agregar active al item clickeado
+                this.classList.add("active");
+                
+                // Ocultar todos los paneles
+                document.querySelectorAll(".nequi-panel").forEach(panel => {
+                    panel.classList.remove("active");
+                });
+                
+                // Mostrar el panel correspondiente
+                if (targetPanel) {
+                    const panel = document.getElementById(targetPanel);
+                    if (panel) {
+                        panel.classList.add("active");
+                        
+                        // Si es el panel de movimientos, cargar transacciones
+                        if (targetPanel === "panelMovimientos") {
+                            loadTransactions();
+                        }
+                    }
+                }
+            });
+        });
+
+        // Cargar transacciones
+        function loadTransactions() {
+            const tbody = document.getElementById("transactionsTableBody");
+            
+            // Cargar transacciones desde localStorage o usar datos de ejemplo
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                } else {
+                    // Transacciones de ejemplo
+                    transactions = [
+                        {
+                            fecha: "2025-01-15",
+                            monto: 50000,
+                            estado: "success",
+                            descripcion: "Transferencia recibida"
+                        },
+                        {
+                            fecha: "2025-01-14",
+                            monto: -25000,
+                            estado: "success",
+                            descripcion: "Pago en supermercado"
+                        },
+                        {
+                            fecha: "2025-01-13",
+                            monto: 100000,
+                            estado: "pending",
+                            descripcion: "Depósito pendiente"
+                        },
+                        {
+                            fecha: "2025-01-12",
+                            monto: -15000,
+                            estado: "failed",
+                            descripcion: "Transferencia fallida"
+                        }
+                    ];
+                    localStorage.setItem("userTransactions", JSON.stringify(transactions));
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+                transactions = [];
+            }
+
+            // Limpiar tabla
+            tbody.innerHTML = "";
+
+            // Renderizar transacciones
+            if (transactions.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px; color: #999;">
+                            No hay transacciones registradas
+                        </td>
+                    </tr>
+                `;
+            } else {
+                transactions.forEach(trans => {
+                    const row = document.createElement("tr");
+                    
+                    // Formatear fecha
+                    const fecha = new Date(trans.fecha);
+                    const fechaFormateada = fecha.toLocaleDateString('es-CO', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    });
+                    
+                    // Formatear monto
+                    const montoFormateado = formatCurrency(Math.abs(trans.monto));
+                    const montoClass = trans.monto >= 0 ? "positive" : "negative";
+                    const montoSign = trans.monto >= 0 ? "+" : "-";
+                    
+                    // Estado
+                    let estadoBadge = "";
+                    let estadoText = "";
+                    switch(trans.estado) {
+                        case "success":
+                            estadoBadge = "success";
+                            estadoText = "Completada";
+                            break;
+                        case "pending":
+                            estadoBadge = "pending";
+                            estadoText = "Pendiente";
+                            break;
+                        case "failed":
+                            estadoBadge = "failed";
+                            estadoText = "Fallida";
+                            break;
+                        default:
+                            estadoBadge = "pending";
+                            estadoText = "Pendiente";
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${fechaFormateada}</td>
+                        <td><span class="nequi-amount ${montoClass}">${montoSign} ${montoFormateado}</span></td>
+                        <td><span class="nequi-status-badge ${estadoBadge}">${estadoText}</span></td>
+                        <td>${trans.descripcion}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

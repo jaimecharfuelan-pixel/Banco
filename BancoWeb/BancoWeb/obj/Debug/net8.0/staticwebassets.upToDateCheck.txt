@@ -1,0 +1,16 @@
+wwwroot\cuenta.html
+wwwroot\index.html
+wwwroot\login.html
+wwwroot\registro.html
+wwwroot\resources\familia.png
+wwwroot\resources\familia1.png
+wwwroot\resources\icon-atm.png
+wwwroot\resources\icon-credit.png
+wwwroot\resources\icon-debit.png
+wwwroot\resources\icon-loan.png
+wwwroot\resources\icon-security.png
+wwwroot\resources\icon-transf.png
+wwwroot\resources\icono.webp
+wwwroot\resources\patron-premium.png
+wwwroot\styles\styles.css
+wwwroot\admin.html

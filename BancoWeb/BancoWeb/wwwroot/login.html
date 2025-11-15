@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <header class="nav"></header>
+
+    <div class="page-center">
+        <div class="page-logo">
+            <img src="resources/icono.webp">
+            <h2>Tu Banco</h2>
+        </div>
+
+        <h3 class="page-title">Iniciar Sesión</h3>
+
+        <form id="formLogin">
+            <input class="input-text" id="elm_emailLogin" type="email" placeholder="Correo" required>
+            <input class="input-text" id="elm_passwordLogin" type="password" placeholder="Contraseña" required>
+            <button class="btn-primary">Iniciar sesión</button>
+        </form>
+
+        <a href="index.html" class="btn-link">⟵ Volver a inicio</a>
+    </div>
+
+    <script>
+        document.getElementById("formLogin").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("elm_emailLogin").value;
+            const pass = document.getElementById("elm_passwordLogin").value;
+
+            const loginData = {
+                email: email,
+                contrasena: pass
+            };
+
+            try {
+                const response = await fetch("https://localhost:7251/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginData)
+                });
+
+                let data = null;
+
+                try {
+                    data = await response.json();
+                } catch {
+                    alert("❌ Error: respuesta no válida.");
+                    return;
+                }
+
+                if (!response.ok) {
+                    alert("❌ Credenciales incorrectas.");
+                    return;
+                }
+
+                localStorage.setItem("usuario", JSON.stringify(data));
+
+                if (data.tipoUsuario === "ADMIN") {
+                    window.location.href = "admin.html";
+                }
+                else if (data.tipoUsuario === "CUENTA") {
+                    window.location.href = "cuenta.html";
+                }
+                else {
+                    alert("Tipo de usuario desconocido.");
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert("Error al conectar con servidor.");
+            }
+        });
+    </script>
+
+</body>
+</html>

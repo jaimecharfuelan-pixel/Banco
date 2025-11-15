@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar Cuenta - Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <!-- Header vacío solo para mantener el estilo general -->
+    <header class="nav"></header>
+
+    <div class="page-center">
+
+        <div class="page-logo">
+            <img src="resources/icono.webp">
+            <h2>Tu Banco</h2>
+        </div>
+
+        <h3 class="page-title">Solicitar Cuenta</h3>
+
+        <!-- FORMULARIO -->
+        <form id="elm_formRegister">
+            <input class="input-text" id="elm_email" type="email" placeholder="Correo electrónico" required>
+            <input class="input-text" id="elm_fullName" type="text" placeholder="Nombre completo" required>
+            <input class="input-text" id="elm_phone" type="text" placeholder="Teléfono" required>
+            <input class="input-text" id="elm_idCard" type="text" placeholder="Cédula de ciudadanía" required>
+
+            <button class="btn-primary" type="submit">Solicitar cuenta</button>
+        </form>
+
+        <a href="index.html" class="btn-link">⟵ Volver a inicio</a>
+
+    </div>
+
+    <!-- LÓGICA -->
+    <script>
+        document.getElementById("elm_formRegister").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const obj_requestData = {
+                prm_email_cliente: document.getElementById("elm_email").value,
+                prm_nombre_cliente: document.getElementById("elm_fullName").value,
+                prm_telefono_cliente: document.getElementById("elm_phone").value,
+
+                // 🔥 IMPORTANTÍSIMO: ya no usamos parseInt
+                prm_cedula_cliente: document.getElementById("elm_idCard").value
+            };
+
+            try {
+                const var_response = await fetch("https://localhost:7251/api/controller_Cliente/service_solicitarCuenta", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(obj_requestData)
+                });
+
+                let obj_result = null;
+
+                try {
+                    obj_result = await var_response.json();
+                } catch {
+                    obj_result = { error: "Respuesta no válida de la API" };
+                }
+
+                if (var_response.ok) {
+                    alert("✔ Cuenta creada. ID: " + obj_result.id_cliente);
+                } else {
+                    if (obj_result.errors)
+                        alert("❌ Error: " + JSON.stringify(obj_result.errors));
+                    else if (obj_result.error)
+                        alert("❌ Error: " + obj_result.error);
+                    else
+                        alert("❌ Error desconocido en la API.");
+                }
+
+            } catch (error) {
+                alert("❌ Error de conexión con el servidor.");
+            }
+        });
+    </script>
+
+</body>
+</html>

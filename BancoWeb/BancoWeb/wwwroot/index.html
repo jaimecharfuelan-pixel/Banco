@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <header class="nav">
+        <div class="nav-left">
+            <img src="resources/icono.webp" class="nav-logo">
+            <span class="nav-title">Tu Banco</span>
+        </div>
+
+        <div class="nav-actions">
+            <a href="login.html" class="nav-btn">Iniciar sesión</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+
+        <div class="hero-card">
+            <h1 class="hero-title">La banca moderna está en tus manos</h1>
+
+            <p class="hero-text">
+                Maneja tus cuentas, tarjetas, transferencias y pagos desde un solo lugar.
+            </p>
+
+            <a href="registro.html" class="hero-btn">Abrir cuenta</a>
+        </div>
+
+        <div class="hero-image">
+            <img id="heroImage" src="resources/familia.png">
+        </div>
+
+    </section>
+
+    <script>
+        const heroImg = document.getElementById("heroImage");
+
+        const images = [
+            "resources/familia.png",
+            "resources/familia1.png"
+        ];
+
+        let index = 0;
+
+        setInterval(() => {
+            heroImg.classList.add("fade-out");
+
+            setTimeout(() => {
+                index = (index + 1) % images.length;
+                heroImg.src = images[index];
+                heroImg.classList.remove("fade-out");
+            }, 1600);
+
+        }, 5000);
+    </script>
+
+    <!-- SERVICIOS -->
+    <section class="services">
+        <div class="service-box">
+            <img src="resources/icon-transf.png">
+            <strong>Transferencias</strong>
+            <p>Envía y recibe dinero en segundos.</p>
+        </div>
+
+        <div class="service-box">
+            <img src="resources/icon-atm.png">
+            <strong>Cajeros</strong>
+            <p>Retiros sin comisiones en todo el país.</p>
+        </div>
+
+        <div class="service-box">
+            <img src="resources/icon-credit.png">
+            <strong>Tarjeta Crédito</strong>
+            <p>Beneficios exclusivos.</p>
+        </div>
+    </section>
+
+</body>
+</html>

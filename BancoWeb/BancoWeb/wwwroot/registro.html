@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitar Cuenta - Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <!-- Header vacío solo para mantener el estilo general -->
+    <header class="nav"></header>
+
+    <div class="page-center">
+
+        <div class="page-logo">
+            <img src="resources/icono.webp">
+            <h2>Tu Banco</h2>
+        </div>
+
+        <h3 class="page-title">Solicitar Cuenta</h3>
+
+        <!-- FORMULARIO -->
+        <form id="elm_formRegister">
+            <input class="input-text" id="elm_email" type="email" placeholder="Correo electrónico" required>
+            <input class="input-text" id="elm_fullName" type="text" placeholder="Nombre completo" required>
+            <input class="input-text" id="elm_phone" type="text" placeholder="Teléfono" required>
+            <input class="input-text" id="elm_idCard" type="text" placeholder="Cédula de ciudadanía" required>
+
+            <button class="btn-primary" type="submit">Solicitar cuenta</button>
+        </form>
+
+        <a href="index.html" class="btn-link">⟵ Volver a inicio</a>
+
+    </div>
+
+    <!-- LÓGICA -->
+    <script src="js/config.js"></script>
+    <script>
+        document.getElementById("elm_formRegister").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            // Validaciones frontend
+            const email = document.getElementById("elm_email").value.trim();
+            const nombre = document.getElementById("elm_fullName").value.trim();
+            const telefono = document.getElementById("elm_phone").value.trim();
+            const cedula = document.getElementById("elm_idCard").value.trim();
+
+            if (!email) {
+                alert("El email es requerido");
+                return;
+            }
+
+            if (!email.includes("@") || !email.includes(".")) {
+                alert("El email debe tener un formato válido");
+                return;
+            }
+
+            if (!nombre) {
+                alert("El nombre es requerido");
+                return;
+            }
+
+            if (!telefono) {
+                alert("El teléfono es requerido");
+                return;
+            }
+
+            if (!cedula || isNaN(cedula) || parseInt(cedula) <= 0) {
+                alert("La cédula debe ser un número válido");
+                return;
+            }
+
+            const obj_requestData = {
+                prm_email_cliente: email,
+                prm_nombre_cliente: nombre,
+                prm_telefono_cliente: telefono,
+                prm_cedula_cliente: parseInt(cedula)
+            };
+
+            try {
+                const obj_result = await apiCall(API_CONFIG.CLIENTE.SOLICITAR_CUENTA, {
+                    method: "POST",
+                    body: obj_requestData
+                });
+
+                alert("Cuenta creada exitosamente. ID: " + obj_result.id_cliente);
+                window.location.href = "index.html";
+
+            } catch (error) {
+                alert(error.message || "Error de conexión con el servidor");
+            }
+        });
+    </script>
+
+</body>
+</html>

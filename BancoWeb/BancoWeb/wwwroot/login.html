@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <header class="nav"></header>
+
+    <div class="page-center">
+        <div class="page-logo">
+            <img src="resources/icono.webp">
+            <h2>Tu Banco</h2>
+        </div>
+
+        <h3 class="page-title">Iniciar Sesión</h3>
+
+        <form id="formLogin">
+            <input class="input-text" id="elm_emailLogin" type="email" placeholder="Correo" required>
+            <input class="input-text" id="elm_passwordLogin" type="password" placeholder="Contraseña" required>
+            <button class="btn-primary">Iniciar sesión</button>
+        </form>
+
+        <a href="index.html" class="btn-link">⟵ Volver a inicio</a>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+        document.getElementById("formLogin").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("elm_emailLogin").value.trim();
+            const pass = document.getElementById("elm_passwordLogin").value;
+
+            // Validaciones en frontend
+            if (!email) {
+                alert("El email es requerido");
+                return;
+            }
+
+            if (!email.includes("@")) {
+                alert("El email debe tener un formato válido");
+                return;
+            }
+
+            if (!pass) {
+                alert("La contraseña es requerida");
+                return;
+            }
+
+            const loginData = {
+                email: email,
+                contrasena: pass
+            };
+
+            try {
+                const data = await apiCall(API_CONFIG.AUTH.LOGIN, {
+                    method: "POST",
+                    body: loginData
+                });
+
+                localStorage.setItem("usuario", JSON.stringify(data));
+
+                if (data.tipoUsuario === "ADMIN") {
+                    window.location.href = "admin.html";
+                }
+                else if (data.tipoUsuario === "CUENTA") {
+                    window.location.href = "cuenta.html";
+                }
+                else {
+                    alert("Tipo de usuario desconocido");
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert(err.message || "Error al conectar con el servidor");
+            }
+        });
+    </script>
+
+</body>
+</html>

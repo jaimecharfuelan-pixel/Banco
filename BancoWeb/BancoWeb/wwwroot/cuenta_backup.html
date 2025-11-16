@@ -1,0 +1,3337 @@
+BancoWeb\wwwroot\cuenta.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta — Tu Banco</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        /* Estilos Banco - Azul predominante */
+        .bank-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .bank-container {
+                max-width: 100%;
+                padding: 0;
+            }
+        }
+
+        /* Header estilo Banco */
+        .bank-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 30px 40px 40px 40px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .bank-header {
+                border-radius: 0 0 30px 30px;
+                padding: 20px 20px 30px 20px;
+                margin-bottom: 0;
+            }
+        }
+
+        .bank-header::before {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .bank-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bank-logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .bank-greeting {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .bank-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+        }
+
+        .bank-balance-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .bank-disponible {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .bank-balance {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .bank-balance {
+                font-size: 36px;
+            }
+        }
+
+        .bank-total {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .bank-tu-plata {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Contenido principal */
+        .bank-content {
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            min-height: calc(100vh - 400px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .bank-content {
+                grid-template-columns: 1fr;
+                margin-top: -20px;
+                border-radius: 30px 30px 0 0;
+                padding: 20px;
+            }
+        }
+
+        /* Paneles de navegación */
+        .bank-panel {
+            display: none;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            min-height: calc(100vh - 400px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+            .bank-panel.active {
+                display: block;
+            }
+
+        @media (max-width: 768px) {
+            .bank-panel {
+                margin-top: -20px;
+                border-radius: 30px 30px 0 0;
+                padding: 20px;
+            }
+        }
+
+        /* Tabla de transacciones */
+        .bank-transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            .bank-transactions-table thead {
+                background: #f8f9fa;
+            }
+
+            .bank-transactions-table th {
+                padding: 15px;
+                text-align: left;
+                font-weight: 600;
+                color: #333;
+                border-bottom: 2px solid #e0e0e0;
+            }
+
+            .bank-transactions-table td {
+                padding: 15px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .bank-transactions-table tbody tr:hover {
+                background: #f8f9fa;
+            }
+
+        .bank-status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+            .bank-status-badge.success {
+                background: #d4edda;
+                color: #155724;
+            }
+
+            .bank-status-badge.pending {
+                background: #fff3cd;
+                color: #856404;
+            }
+
+            .bank-status-badge.failed {
+                background: #f8d7da;
+                color: #721c24;
+            }
+
+        .bank-amount {
+            font-weight: 600;
+        }
+
+            .bank-amount.positive {
+                color: #28a745;
+            }
+
+            .bank-amount.negative {
+                color: #dc3545;
+            }
+
+        /* Menú de opciones */
+        .bank-menu-section {
+            margin-top: 0;
+        }
+
+        .bank-menu-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .bank-menu-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+            .bank-menu-item:hover {
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+                border-color: var(--color-primary);
+            }
+
+        .bank-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .bank-menu-header span {
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+        .bank-chevron {
+            transition: transform 0.3s;
+        }
+
+        .bank-menu-item.active .bank-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Panel de editar datos */
+        .bank-edit-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .bank-menu-item.active .bank-edit-panel {
+            max-height: 2000px;
+            margin-top: 15px;
+        }
+
+        .bank-data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .bank-data-item:last-child {
+                border-bottom: none;
+            }
+
+        .bank-data-label {
+            font-size: 14px;
+            color: #666;
+            flex: 1;
+        }
+
+        .bank-data-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-right: 10px;
+            flex: 1;
+            text-align: right;
+        }
+
+        .bank-edit-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+            .bank-edit-btn:hover {
+                background: var(--color-primary-hover);
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+            }
+
+        /* Formulario de edición */
+        .bank-edit-form {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .bank-data-item.editing .bank-edit-form {
+            max-height: 200px;
+        }
+
+        .bank-edit-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .bank-save-btn {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+            .bank-save-btn:hover {
+                background: var(--color-primary-hover);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            }
+
+        /* Botón flotante y menú */
+        .bank-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+            .bank-fab:hover {
+                background: var(--color-primary-hover);
+                transform: scale(1.1);
+            }
+
+            .bank-fab.active {
+                transform: rotate(45deg);
+            }
+
+        /* Menú flotante */
+        .bank-fab-menu {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            min-width: 200px;
+            padding: 10px 0;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+            .bank-fab-menu.active {
+                display: flex;
+            }
+
+        .bank-fab-menu-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+
+            .bank-fab-menu-item:hover {
+                background: #f8f9fa;
+            }
+
+            .bank-fab-menu-item:first-child {
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+            }
+
+            .bank-fab-menu-item:last-child {
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+
+        /* Modal de transferencia */
+        .bank-transfer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .bank-transfer-modal.active {
+                display: flex;
+            }
+
+        .bank-transfer-box {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .bank-transfer-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+        }
+
+        .bank-transfer-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bank-transfer-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .bank-transfer-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+            .bank-transfer-input:focus {
+                outline: none;
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            }
+
+        .bank-transfer-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .bank-transfer-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .bank-transfer-btn.close {
+                background: #6c757d;
+                color: white;
+            }
+
+                .bank-transfer-btn.close:hover {
+                    background: #5a6268;
+                }
+
+            .bank-transfer-btn.send {
+                background: var(--color-primary);
+                color: white;
+            }
+
+                .bank-transfer-btn.send:hover {
+                    background: var(--color-primary-hover);
+                }
+
+        /* Estilos para sucursales y cajeros */
+        .bank-branch-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+            .bank-branch-item:hover {
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+                border-color: var(--color-primary);
+            }
+
+        .bank-branch-atms {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .bank-branch-item.expanded .bank-branch-atms {
+            max-height: 1000px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .bank-branch-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .bank-branch-address {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .bank-branch-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .bank-branch-btn:hover {
+                background: var(--color-primary-hover);
+            }
+
+        .bank-atm-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .bank-atm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bank-atm-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .bank-atm-use-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .bank-atm-use-btn:hover {
+                background: #218838;
+            }
+
+        /* Navegación inferior */
+        .bank-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 25px 25px 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .bank-bottom-nav {
+                max-width: 100%;
+                gap: 0;
+            }
+        }
+
+        .bank-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            flex: 1;
+            max-width: 150px;
+        }
+
+            .bank-nav-item.active {
+                background: rgba(0, 123, 255, 0.1);
+            }
+
+            .bank-nav-item span {
+                font-size: 12px;
+                color: #666;
+            }
+
+            .bank-nav-item.active span {
+                color: var(--color-primary);
+                font-weight: 600;
+            }
+
+        .bank-nav-icon {
+            font-size: 24px;
+        }
+
+        .bank-nav-item.active .bank-nav-icon {
+            color: var(--color-primary);
+        }
+
+        /* Ocultar datos sensibles */
+        .bank-hidden {
+            filter: blur(5px);
+        }
+
+        .bank-eye-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Sección de contraseña destacada */
+        .bank-password-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid var(--color-primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 0;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+        }
+
+            .bank-password-section .bank-menu-header {
+                color: var(--color-primary);
+                margin-bottom: 20px;
+                font-size: 18px;
+                font-weight: 700;
+            }
+
+            .bank-password-section .bank-data-item {
+                background: white;
+                padding: 25px;
+                border-radius: 12px;
+                margin-bottom: 0;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                display: block;
+                overflow: visible;
+            }
+
+            .bank-password-section .bank-data-item > div:first-child {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                width: 100%;
+                gap: 20px;
+                margin-bottom: 0;
+            }
+
+            .bank-password-section .bank-data-item > div:first-child > div {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .bank-password-section .bank-data-label {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 8px;
+                font-weight: 500;
+            }
+
+            .bank-password-section .bank-data-value {
+                font-size: 16px;
+                color: #333;
+                font-weight: 600;
+                word-break: break-word;
+                overflow-wrap: break-word;
+                white-space: normal;
+                padding: 8px 12px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                border: 1px solid #e0e0e0;
+                min-height: 20px;
+            }
+
+            .bank-password-section .bank-edit-btn {
+                flex-shrink: 0;
+                white-space: nowrap;
+                align-self: flex-start;
+                margin-top: 24px;
+            }
+
+            .bank-password-section .bank-edit-form {
+                background: #f9f9f9;
+                padding: 25px;
+                border-radius: 10px;
+                margin-top: 20px;
+                border: 1px solid #e0e0e0;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .bank-password-section .bank-edit-input {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: all 0.3s;
+                background: white;
+            }
+
+            .bank-password-section .bank-edit-input:focus {
+                outline: none;
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            }
+
+            .bank-password-section .bank-save-btn {
+                background: var(--color-primary);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s;
+                align-self: flex-start;
+                margin-top: 5px;
+            }
+
+            .bank-password-section .bank-save-btn:hover {
+                background: var(--color-primary-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            }
+
+        .bank-password-warning {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #ffc107;
+        }
+
+        /* Estilos para sección de tarjetas */
+        .bank-cards-section {
+            margin-top: 0;
+        }
+
+        .bank-cards-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .bank-card-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+            .bank-card-btn:hover {
+                background: var(--color-primary-hover);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            }
+
+            .bank-card-btn.secondary {
+                background: #6c757d;
+            }
+
+                .bank-card-btn.secondary:hover {
+                    background: #5a6268;
+                }
+
+        .bank-cards-list {
+            margin-top: 20px;
+        }
+
+        .bank-cards-category {
+            margin-bottom: 30px;
+        }
+
+        .bank-cards-category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .bank-card-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+            .bank-card-item:hover {
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+                border-color: var(--color-primary);
+            }
+
+        .bank-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .bank-card-info {
+            flex: 1;
+        }
+
+        .bank-card-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .bank-card-type {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .bank-card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .bank-card-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .bank-card-detail-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bank-card-detail-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .bank-card-cvv-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-card-cvv-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .bank-card-cvv-hidden {
+            filter: blur(4px);
+            user-select: none;
+        }
+
+        .bank-card-cvv-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .bank-card-cvv-btn:hover {
+                background: #f8f9fa;
+                border-color: var(--color-primary);
+            }
+
+        .bank-card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bank-delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .bank-delete-btn:hover {
+                background: #c82333;
+                transform: translateY(-1px);
+            }
+
+        /* Modal de confirmación */
+        .bank-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .bank-confirm-modal.active {
+                display: flex;
+            }
+
+        .bank-confirm-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .bank-confirm-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .bank-confirm-message {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .bank-confirm-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .bank-confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+            .bank-confirm-btn.cancel {
+                background: #6c757d;
+                color: white;
+            }
+
+                .bank-confirm-btn.cancel:hover {
+                    background: #5a6268;
+                }
+
+            .bank-confirm-btn.confirm {
+                background: #dc3545;
+                color: white;
+            }
+
+                .bank-confirm-btn.confirm:hover {
+                    background: #c82333;
+                }
+
+        /* Estilo específico para tarjeta promocional de préstamo */
+        .bank-loan-promo {
+            background: linear-gradient(135deg,#e9f7ff 0%, #d1ecff 100%);
+            border: 1px solid #cfeefc;
+            padding: 20px;
+            border-radius: 14px;
+            display: grid;
+            gap: 12px;
+            align-items: center;
+        }
+
+            .bank-loan-promo h3 {
+                margin: 0;
+                font-size: 20px;
+                color: #045f9c;
+            }
+
+        .bank-loan-benefits {
+            color: #334;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .bank-loan-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            justify-self: start;
+        }
+
+            .bank-loan-btn:hover {
+                background: #0056b3;
+            }
+        /* Estilos para préstamos activos */
+        .bank-loans-section {
+            margin-top: 20px;
+        }
+
+        .bank-loans-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .bank-loan-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .bank-loan-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: var(--color-primary);
+        }
+
+        .bank-loan-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .bank-loan-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .bank-loan-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .bank-loan-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .bank-loan-value.amount {
+            color: var(--color-primary);
+            font-size: 16px;
+        }
+
+        .bank-loan-value.balance {
+            color: #dc3545;
+        }
+
+        /* Estilos para información de cuenta */
+        .bank-account-info {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .bank-account-info-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .bank-account-info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .bank-account-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .bank-account-info-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .bank-account-info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-account-info-value.hidden {
+            filter: blur(5px);
+            user-select: none;
+        }
+
+        .bank-password-eye-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bank-password-eye-btn:hover {
+            background: #f8f9fa;
+            border-color: var(--color-primary);
+        }
+
+        /* Estilos para modal de detalles de préstamo */
+        .bank-loan-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .bank-loan-detail-modal.active {
+            display: flex;
+        }
+
+        .bank-loan-detail-box {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .bank-loan-detail-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bank-loan-detail-close {
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .bank-loan-detail-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .bank-loan-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .bank-loan-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .bank-loan-detail-label {
+            font-size: 15px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .bank-loan-detail-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .bank-loan-detail-value.amount {
+            color: var(--color-primary);
+            font-size: 18px;
+        }
+
+        .bank-loan-detail-value.balance {
+            color: #dc3545;
+            font-size: 18px;
+        }
+
+        .bank-loan-detail-value.status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .bank-loan-detail-value.status.activo {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .bank-loan-detail-value.status.vencido {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .bank-loan-detail-value.status.pagado {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .bank-loan-item {
+            cursor: pointer;
+        }
+
+        .bank-loan-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Estilos para sección de cuotas */
+        .bank-loan-cuotas-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .bank-loan-cuotas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .bank-loan-cuotas-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .bank-loan-cuotas-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bank-loan-cuotas-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bank-loan-cuotas-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .bank-loan-cuotas-btn.secondary {
+            background: #6c757d;
+        }
+
+        .bank-loan-cuotas-btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .bank-loan-cuotas-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .bank-loan-cuotas-list {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .bank-loan-cuotas-list.active {
+            display: block;
+        }
+
+        .bank-loan-cuota-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .bank-loan-cuota-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: var(--color-primary);
+        }
+
+        .bank-loan-cuota-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bank-loan-cuota-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .bank-loan-cuota-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .bank-loan-cuota-status.pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .bank-loan-cuota-status.pagada {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .bank-loan-cuota-status.vencida {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .bank-loan-cuota-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bank-loan-cuota-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bank-loan-cuota-detail-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .bank-loan-cuota-detail-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .bank-loan-cuota-pay-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .bank-loan-cuota-pay-btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .bank-loan-cuota-pay-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bank-container">
+        <!-- Header -->
+        <div class="bank-header">
+            <div class="bank-top-bar">
+                <div class="bank-greeting">
+                    <span>👤</span>
+                    <span id="userGreeting">Hola, Usuario</span>
+                </div>
+                <button class="bank-logout-btn" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+            </div>
+
+            <div class="bank-balance-section">
+                <div class="bank-disponible">
+                    <span>Disponible</span>
+                    <button class="bank-eye-btn" id="toggleBalance">👁️</button>
+                </div>
+                <div class="bank-balance" id="balanceDisplay">$ 0,00</div>
+            </div>
+        </div>
+
+        <!-- Panel: Inicio -->
+        <div id="panelInicio" class="bank-panel active">
+            <div class="bank-content">
+                <!-- Columna izquierda: Tarjetas -->
+                <div class="bank-menu-section bank-cards-section">
+                    <div class="bank-menu-title">💳 Tarjetas</div>
+
+                    <!-- Botones de acción -->
+                    <div class="bank-cards-buttons">
+                        <button class="bank-card-btn" onclick="createDebitCard()">
+                            <span>➕</span>
+                            <span>Crear una nueva tarjeta de débito digital</span>
+                        </button>
+                        <button class="bank-card-btn secondary" onclick="requestCreditCard()">
+                            <span>📋</span>
+                            <span>Solicitar tarjeta de crédito</span>
+                        </button>
+                    </div>
+
+                    <!-- Listado de tarjetas -->
+                    <div class="bank-cards-list" id="cardsList">
+                        <!-- Tarjetas Débito -->
+                        <div class="bank-cards-category">
+                            <div class="bank-cards-category-title">Tarjetas Débito</div>
+                            <div id="debitCardsList">
+                                <!-- Las tarjetas se agregarán dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Tarjetas Crédito -->
+                        <div class="bank-cards-category">
+                            <div class="bank-cards-category-title">Tarjetas Crédito</div>
+                            <div id="creditCardsList">
+                                <!-- Las tarjetas se agregarán dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna derecha: Información adicional -->
+                <div class="bank-menu-section">
+                    <div class="bank-menu-title">📊 Resumen</div>
+                    
+                    <!-- Préstamos activos -->
+                    <div class="bank-loans-section">
+                        <div class="bank-loans-title">💰 Préstamos Activos</div>
+                        <div id="loansList">
+                            <!-- Los préstamos se cargarán dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Información de cuenta -->
+                    <div class="bank-account-info">
+                        <div class="bank-account-info-title">📋 Información de Cuenta</div>
+                        
+                        <div class="bank-account-info-item">
+                            <div class="bank-account-info-label">Correo</div>
+                            <div class="bank-account-info-value" id="summaryEmail">usuario@example.com</div>
+                        </div>
+                        
+                        <div class="bank-account-info-item">
+                            <div class="bank-account-info-label">Teléfono</div>
+                            <div class="bank-account-info-value" id="summaryPhone">+57 300 000 0000</div>
+                        </div>
+                        
+                        <div class="bank-account-info-item">
+                            <div class="bank-account-info-label">Contraseña</div>
+                            <div class="bank-account-info-value">
+                                <span id="summaryPassword" class="bank-account-info-value hidden">••••••••</span>
+                                <button class="bank-password-eye-btn" id="summaryPasswordToggle" onclick="toggleSummaryPassword()">👁️</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Movimientos -->
+        <div id="panelMovimientos" class="bank-panel">
+            <div class="bank-menu-title">📄 Transacciones</div>
+            <table class="bank-transactions-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionsTableBody">
+                    <!-- Las transacciones se cargarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Panel: Servicios -->
+        <div id="panelServicios" class="bank-panel">
+            <div class="bank-menu-title">⚙️ Servicios</div>
+
+            <!-- Contenido de préstamos: tarjeta promocional + botón -->
+            <div style="padding: 20px;">
+                <div class="bank-loan-promo">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <div>
+                            <h3>Solicita tu Préstamo Rápido</h3>
+                            <div class="bank-loan-benefits">
+                                - Tasas competitivas y plazos flexibles.<br>
+                                - Aprobación rápida en minutos.<br>
+                                - Sin papeleos innecesarios; todo en línea.<br>
+                                - Reintegros automáticos y simulador integrado.
+                            </div>
+                        </div>
+                        <div>
+                            <button id="loanButton" class="bank-loan-btn" onclick="openLoanModal()">Solicitar Préstamo</button>
+                        </div>
+                    </div>
+                    <div style="font-size:13px; color:#666; margin-top:8px;">Oferta sujeta a condiciones y evaluación de crédito.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel: Configuración -->
+        <div id="panelConfiguracion" class="bank-panel">
+            <div class="bank-menu-section">
+                <div class="bank-menu-title">⚙️ Configuración</div>
+
+                <div class="bank-menu-item" id="editDataMenu">
+                    <div class="bank-menu-header">
+                        <span>✏️ Editar Datos Personales</span>
+                        <span class="bank-chevron">▼</span>
+                    </div>
+
+                    <div class="bank-edit-panel">
+                        <!-- Correo -->
+                        <div class="bank-data-item" data-field="correo">
+                            <div class="bank-data-label">Correo</div>
+                            <div class="bank-data-value" id="value-correo">usuario@example.com</div>
+                            <button class="bank-edit-btn" onclick="toggleEdit('correo')">Editar</button>
+                            <div class="bank-edit-form">
+                                <input type="email" class="bank-edit-input" id="input-correo" placeholder="Nuevo correo">
+                                <button class="bank-save-btn" onclick="saveData('correo')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="bank-data-item" data-field="nombre">
+                            <div class="bank-data-label">Nombre</div>
+                            <div class="bank-data-value" id="value-nombre">Usuario</div>
+                            <button class="bank-edit-btn" onclick="toggleEdit('nombre')">Editar</button>
+                            <div class="bank-edit-form">
+                                <input type="text" class="bank-edit-input" id="input-nombre" placeholder="Nuevo nombre">
+                                <button class="bank-save-btn" onclick="saveData('nombre')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="bank-data-item" data-field="telefono">
+                            <div class="bank-data-label">Teléfono</div>
+                            <div class="bank-data-value" id="value-telefono">+57 300 000 0000</div>
+                            <button class="bank-edit-btn" onclick="toggleEdit('telefono')">Editar</button>
+                            <div class="bank-edit-form">
+                                <input type="tel" class="bank-edit-input" id="input-telefono" placeholder="Nuevo teléfono">
+                                <button class="bank-save-btn" onclick="saveData('telefono')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+
+                        <!-- Cuenta -->
+                        <div class="bank-data-item" data-field="cuenta">
+                            <div class="bank-data-label">Número de Cuenta</div>
+                            <div class="bank-data-value" id="value-cuenta">0000000000</div>
+                            <button class="bank-edit-btn" onclick="toggleEdit('cuenta')">Editar</button>
+                            <div class="bank-edit-form">
+                                <input type="text" class="bank-edit-input" id="input-cuenta" placeholder="Nuevo número de cuenta">
+                                <button class="bank-save-btn" onclick="saveData('cuenta')">Guardar y cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Seguridad -->
+                <div style="margin-top: 30px;">
+                    <div class="bank-menu-title" style="margin-top: 0;">🔒 Seguridad</div>
+
+                    <!-- Sección de contraseña destacada -->
+                    <div class="bank-password-section">
+                        <div class="bank-menu-header">
+                            <span>🔒 Cambiar Contraseña</span>
+                        </div>
+
+                        <div class="bank-data-item" data-field="contraseña">
+                            <div>
+                                <div>
+                                    <div class="bank-data-label">Contraseña actual</div>
+                                    <div class="bank-data-value" id="value-contraseña">••••••••</div>
+                                </div>
+                                <button class="bank-edit-btn" onclick="toggleEdit('contraseña')">Cambiar</button>
+                            </div>
+                            <div class="bank-edit-form">
+                                <input type="password" class="bank-edit-input" id="input-contraseña-actual" placeholder="Contraseña actual" required>
+                                <input type="password" class="bank-edit-input" id="input-contraseña" placeholder="Nueva contraseña" required>
+                                <input type="password" class="bank-edit-input" id="input-contraseña-confirm" placeholder="Confirmar nueva contraseña" required>
+                                <div class="bank-password-warning">
+                                    <span>⚠️</span>
+                                    <span>La contraseña debe tener al menos 8 caracteres</span>
+                                </div>
+                                <button class="bank-save-btn" onclick="savePassword()">Guardar y cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar tarjeta -->
+        <div class="bank-confirm-modal" id="confirmModal">
+            <div class="bank-confirm-box">
+                <div class="bank-confirm-title">Confirmar eliminación</div>
+                <div class="bank-confirm-message" id="confirmMessage">
+                    ¿Está seguro que desea eliminar esta tarjeta? Esta acción no se puede deshacer.
+                </div>
+                <div class="bank-confirm-buttons">
+                    <button class="bank-confirm-btn cancel" onclick="closeConfirmModal()">Cancelar</button>
+                    <button class="bank-confirm-btn confirm" onclick="confirmDeleteCard()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de detalles de préstamo -->
+        <div class="bank-loan-detail-modal" id="loanDetailModal">
+            <div class="bank-loan-detail-box">
+                <div class="bank-loan-detail-title">
+                    <span>💰 Detalles del Préstamo</span>
+                    <button class="bank-loan-detail-close" onclick="closeLoanDetailModal()">×</button>
+                </div>
+                <div id="loanDetailContent">
+                    <!-- Los detalles se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de solicitud de préstamo -->
+        <div class="bank-transfer-modal" id="loanModal">
+            <div class="bank-transfer-box">
+                <div class="bank-transfer-title">Solicitar Préstamo</div>
+                <form class="bank-transfer-form" id="loanForm">
+                    <div>
+                        <label class="bank-transfer-label">Monto del préstamo</label>
+                        <input type="number" class="bank-transfer-input" id="loanAmount" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    <div>
+                        <label class="bank-transfer-label">Fecha de inicio</label>
+                        <input type="date" class="bank-transfer-input" id="loanStartDate" required>
+                    </div>
+                    <div>
+                        <label class="bank-transfer-label">Plazo (días)</label>
+                        <input type="number" class="bank-transfer-input" id="loanTermDays" min="1" step="1" value="30" required>
+                    </div>
+
+                    <div>
+                        <label class="bank-transfer-label">Fecha de vencimiento</label>
+                        <div id="loanDueDate" style="padding:10px 12px; border:1px solid #ddd; border-radius:8px; background:#f8f9fa;">-</div>
+                    </div>
+
+                    <div class="bank-transfer-buttons">
+                        <button type="button" class="bank-transfer-btn close" onclick="closeLoanModal()">Cerrar</button>
+                        <button type="submit" class="bank-transfer-btn send">Solicitar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Botón flotante con menú -->
+        <div class="bank-fab" id="fabButton">$</div>
+
+        <!-- Menú flotante -->
+        <div class="bank-fab-menu" id="fabMenu">
+            <div class="bank-fab-menu-item" onclick="openTransferModal()">
+                <span>🔄</span>
+                <span>Envia cuenta a cuenta</span>
+            </div>
+            <div class="bank-fab-menu-item" onclick="openAtmMenu()">
+                <span>🏧</span>
+                <span>Ir a cajero</span>
+            </div>
+        </div>
+
+        <!-- Modal de transferencia -->
+        <div class="bank-transfer-modal" id="transferModal">
+            <div class="bank-transfer-box">
+                <div class="bank-transfer-title">Transacción</div>
+                <form class="bank-transfer-form" id="transferForm">
+                    <div>
+                        <label class="bank-transfer-label">ID / Cuenta de destino</label>
+                        <input type="text" class="bank-transfer-input" id="transferDestination" placeholder="Ingrese el ID o número de cuenta" required>
+                    </div>
+                    <div>
+                        <label class="bank-transfer-label">Monto</label>
+                        <input type="number" class="bank-transfer-input" id="transferAmount" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    <div>
+                        <label class="bank-transfer-label">Descripción</label>
+                        <input type="text" class="bank-transfer-input" id="transferDescription" placeholder="Descripción de la transacción" required>
+                    </div>
+                    <div class="bank-transfer-buttons">
+                        <button type="button" class="bank-transfer-btn close" onclick="closeTransferModal()">Cerrar</button>
+                        <button type="submit" class="bank-transfer-btn send">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de cajero (sucursales) -->
+        <div class="bank-transfer-modal" id="atmModal">
+            <div class="bank-transfer-box" style="max-width: 600px;">
+                <div class="bank-transfer-title">🏧 Sucursales</div>
+                <div id="atmBranchesList" style="max-height: 500px; overflow-y: auto;">
+                    <!-- Las sucursales se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <div class="bank-bottom-nav">
+            <div class="bank-nav-item active" data-panel="panelInicio">
+                <div class="bank-nav-icon">🏠</div>
+                <span>Inicio</span>
+            </div>
+            <div class="bank-nav-item" data-panel="panelMovimientos">
+                <div class="bank-nav-icon">📄</div>
+                <span>Movimientos</span>
+            </div>
+            <div class="bank-nav-item" data-panel="panelServicios">
+                <div class="bank-nav-icon">⚙️</div>
+                <span>Servicios</span>
+            </div>
+            <div class="bank-nav-item" data-panel="panelConfiguracion">
+                <div class="bank-nav-icon">🔧</div>
+                <span>Configuración</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos del usuario desde localStorage
+        let usuario = null;
+        let cards = []; // Array para almacenar las tarjetas
+        let cardToDelete = null; // Tarjeta que se va a eliminar
+
+        // Cargar tarjetas desde localStorage
+        function loadCards() {
+            try {
+                const cardsStr = localStorage.getItem("userCards");
+                if (cardsStr) {
+                    cards = JSON.parse(cardsStr);
+                } else {
+                    // Tarjetas de ejemplo si no hay ninguna
+                    cards = [];
+                }
+                renderCards();
+            } catch (e) {
+                console.error("Error al cargar tarjetas:", e);
+                cards = [];
+                renderCards();
+            }
+        }
+
+        // Guardar tarjetas en localStorage
+        function saveCards() {
+            localStorage.setItem("userCards", JSON.stringify(cards));
+        }
+
+        // Generar número de tarjeta aleatorio
+        function generateCardNumber() {
+            let number = "";
+            for (let i = 0; i < 4; i++) {
+                number += Math.floor(1000 + Math.random() * 9000);
+                if (i < 3) number += " ";
+            }
+            return number;
+        }
+
+        // Generar CVV aleatorio
+        function generateCVV() {
+            return Math.floor(100 + Math.random() * 900).toString();
+        }
+
+        // Generar fecha de emisión (fecha actual)
+        function generateIssueDate() {
+            const now = new Date();
+            return now.toISOString().split('T')[0];
+        }
+
+        // Generar fecha de vencimiento (3 años desde la emisión)
+        function generateExpiryDate(issueDate) {
+            const issue = new Date(issueDate);
+            const expiry = new Date(issue);
+            expiry.setFullYear(expiry.getFullYear() + 3);
+            return expiry.toISOString().split('T')[0];
+        }
+
+        // Formatear fecha para mostrar
+        function formatDate(dateString) {
+            if (!dateString) {
+                return "N/A";
+            }
+            
+            try {
+                const date = new Date(dateString);
+                
+                // Verificar si la fecha es válida
+                if (isNaN(date.getTime())) {
+                    return "Fecha inválida";
+                }
+                
+                return date.toLocaleDateString('es-CO', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+            } catch (error) {
+                console.error("Error al formatear fecha:", error, dateString);
+                return "Fecha inválida";
+            }
+        }
+
+        // Renderizar tarjetas
+        function renderCards() {
+            const debitList = document.getElementById("debitCardsList");
+            const creditList = document.getElementById("creditCardsList");
+
+            // Limpiar listas
+            debitList.innerHTML = "";
+            creditList.innerHTML = "";
+
+            // Separar tarjetas por tipo
+            const debitCards = cards.filter(card => card.type === "debit");
+            const creditCards = cards.filter(card => card.type === "credit");
+
+            // Renderizar tarjetas débito
+            if (debitCards.length === 0) {
+                debitList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No tienes tarjetas de débito</div>';
+            } else {
+                debitCards.forEach((card) => {
+                    const cardElement = createCardElement(card);
+                    debitList.appendChild(cardElement);
+                });
+            }
+
+            // Renderizar tarjetas crédito
+            if (creditCards.length === 0) {
+                creditList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No tienes tarjetas de crédito</div>';
+            } else {
+                creditCards.forEach((card) => {
+                    const cardElement = createCardElement(card);
+                    creditList.appendChild(cardElement);
+                });
+            }
+        }
+
+        // Crear elemento de tarjeta
+        function createCardElement(card) {
+            const div = document.createElement("div");
+            div.className = "bank-card-item";
+
+            // Asegurar que la tarjeta tenga los campos necesarios
+            if (!card.issueDate) card.issueDate = generateIssueDate();
+            if (!card.expiryDate) card.expiryDate = generateExpiryDate(card.issueDate);
+            if (!card.cvv) card.cvv = generateCVV();
+
+            const cvvId = `cvv-${card.id}`;
+            const cvvVisible = card.cvvVisible || false;
+
+            div.innerHTML = `
+                    <div class="bank-card-header">
+                        <div class="bank-card-info">
+                            <div class="bank-card-number">${card.number}</div>
+                            <div class="bank-card-type">${card.type === "debit" ? "Tarjeta Débito" : "Tarjeta Crédito"}</div>
+                </div>
+                        <div class="bank-card-actions">
+                            ${card.type === "debit" ? `<button class="bank-delete-btn" onclick="showDeleteConfirm(${card.id})">Eliminar</button>` : ''}
+            </div>
+                    </div>
+                    <div class="bank-card-details">
+                        <div class="bank-card-detail-item">
+                            <div class="bank-card-detail-label">Fecha de Emisión</div>
+                            <div class="bank-card-detail-value">${formatDate(card.issueDate)}</div>
+                        </div>
+                        <div class="bank-card-detail-item">
+                            <div class="bank-card-detail-label">Fecha de Vencimiento</div>
+                            <div class="bank-card-detail-value">${formatDate(card.expiryDate)}</div>
+                        </div>
+                        <div class="bank-card-detail-item">
+                            <div class="bank-card-detail-label">CVV</div>
+                            <div class="bank-card-cvv-container">
+                                <span class="bank-card-cvv-value ${!cvvVisible ? 'bank-card-cvv-hidden' : ''}" id="${cvvId}">${card.cvv}</span>
+                                <button class="bank-card-cvv-btn" onclick="toggleCVV(${card.id})" title="${cvvVisible ? 'Ocultar' : 'Mostrar'} CVV">
+                                    ${cvvVisible ? '👁️' : '👁️‍🗨️'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            return div;
+        }
+
+        // Toggle CVV visibility
+        function toggleCVV(cardId) {
+            const card = cards.find(c => c.id === cardId);
+            if (card) {
+                card.cvvVisible = !card.cvvVisible;
+                saveCards();
+
+                const cvvElement = document.getElementById(`cvv-${cardId}`);
+                const btn = cvvElement.nextElementSibling;
+
+                if (card.cvvVisible) {
+                    cvvElement.classList.remove('bank-card-cvv-hidden');
+                    btn.innerHTML = '👁️';
+                    btn.title = 'Ocultar CVV';
+                } else {
+                    cvvElement.classList.add('bank-card-cvv-hidden');
+                    btn.innerHTML = '👁️‍🗨️';
+                    btn.title = 'Mostrar CVV';
+                }
+            }
+        }
+
+        // Crear tarjeta de débito
+        function createDebitCard() {
+            const issueDate = generateIssueDate();
+            const newCard = {
+                id: Date.now(),
+                number: generateCardNumber(),
+                type: "debit",
+                issueDate: issueDate,
+                expiryDate: generateExpiryDate(issueDate),
+                cvv: generateCVV(),
+                cvvVisible: false,
+                createdAt: new Date().toISOString()
+            };
+            cards.push(newCard);
+            saveCards();
+            renderCards();
+            alert("✅ Tarjeta débito creada");
+        }
+
+        // Solicitar tarjeta de crédito
+        function requestCreditCard() {
+            alert("📋 Tu solicitud de tarjeta de crédito ha sido enviada. Te notificaremos cuando sea aprobada.");
+        }
+
+        // Mostrar modal de confirmación para eliminar
+        function showDeleteConfirm(cardId) {
+            const card = cards.find(c => c.id === cardId);
+            if (card && card.type === "debit") {
+                cardToDelete = cardId;
+                document.getElementById("confirmMessage").textContent =
+                    `¿Está seguro que desea eliminar la tarjeta de débito ${card.number}? Esta acción no se puede deshacer.`;
+                document.getElementById("confirmModal").classList.add("active");
+            }
+        }
+
+        // Cerrar modal de confirmación
+        function closeConfirmModal() {
+            document.getElementById("confirmModal").classList.remove("active");
+            cardToDelete = null;
+        }
+
+        // Confirmar eliminación de tarjeta
+        function confirmDeleteCard() {
+            if (cardToDelete !== null) {
+                const index = cards.findIndex(c => c.id === cardToDelete);
+                if (index !== -1) {
+                    cards.splice(index, 1);
+                    saveCards();
+                    renderCards();
+                    closeConfirmModal();
+                    alert("✅ Tarjeta eliminada correctamente");
+                }
+            }
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById("confirmModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+        // Botón flotante y menú
+        const fabButton = document.getElementById("fabButton");
+        const fabMenu = document.getElementById("fabMenu");
+
+        fabButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+            fabButton.classList.toggle("active");
+            fabMenu.classList.toggle("active");
+        });
+
+        // Cerrar menú al hacer clic fuera
+        document.addEventListener("click", function (e) {
+            if (!fabButton.contains(e.target) && !fabMenu.contains(e.target)) {
+                fabButton.classList.remove("active");
+                fabMenu.classList.remove("active");
+            }
+        });
+
+        // Abrir modal de transferencia
+        function openTransferModal() {
+            document.getElementById("transferModal").classList.add("active");
+            fabButton.classList.remove("active");
+            fabMenu.classList.remove("active");
+        }
+
+        // Abrir menú de cajero
+        function openAtmMenu() {
+            document.getElementById("atmModal").classList.add("active");
+            fabButton.classList.remove("active");
+            fabMenu.classList.remove("active");
+            loadBranches();
+        }
+
+        // Cerrar modal de cajero
+        function closeAtmModal() {
+            document.getElementById("atmModal").classList.remove("active");
+            document.getElementById("atmBranchesList").innerHTML = "";
+        }
+
+        // Cargar sucursales
+        function loadBranches() {
+            const branchesList = document.getElementById("atmBranchesList");
+
+            // Sucursales de ejemplo
+            const branches = [
+                {
+                    id: 1, name: "Sucursal Centro", address: "Calle 50 # 10-20, Centro", atms: [
+                        { id: 1, name: "Cajero 1" },
+                        { id: 2, name: "Cajero 2" },
+                        { id: 3, name: "Cajero 3" }
+                    ]
+                },
+                {
+                    id: 2, name: "Sucursal Norte", address: "Avenida 68 # 15-30, Norte", atms: [
+                        { id: 4, name: "Cajero 1" },
+                        { id: 5, name: "Cajero 2" }
+                    ]
+                },
+                {
+                    id: 3, name: "Sucursal Sur", address: "Carrera 30 # 20-40, Sur", atms: [
+                        { id: 6, name: "Cajero 1" },
+                        { id: 7, name: "Cajero 2" },
+                        { id: 8, name: "Cajero 3" },
+                        { id: 9, name: "Cajero 4" }
+                    ]
+                }
+            ];
+
+            branchesList.innerHTML = "";
+
+            branches.forEach(branch => {
+                const branchDiv = document.createElement("div");
+                branchDiv.className = "bank-branch-item";
+                branchDiv.id = `branch-${branch.id}`;
+
+                // Crear lista de cajeros
+                const atmsList = branch.atms.map(atm => `
+                        <div class="bank-atm-item" style="margin-bottom: 10px;">
+                            <div class="bank-atm-name">${atm.name}</div>
+                            <button class="bank-atm-use-btn" onclick="useATM(${atm.id}, '${atm.name}')">Usar cajero</button>
+        </div>
+                    `).join('');
+
+                branchDiv.innerHTML = `
+                        <div class="bank-branch-name">${branch.name}</div>
+                        <div class="bank-branch-address">📍 ${branch.address}</div>
+                        <button class="bank-branch-btn" onclick="toggleBranch(${branch.id})">
+                            Entrar en la sucursal
+                        </button>
+                        <div class="bank-branch-atms">
+                            ${atmsList}
+                        </div>
+                    `;
+                branchesList.appendChild(branchDiv);
+            });
+        }
+
+        // Toggle (desplegar/colapsar) sucursal
+        function toggleBranch(branchId) {
+            const branchDiv = document.getElementById(`branch-${branchId}`);
+            if (branchDiv) {
+                branchDiv.classList.toggle("expanded");
+
+                // Cerrar otras sucursales expandidas
+                document.querySelectorAll(".bank-branch-item").forEach(item => {
+                    if (item.id !== `branch-${branchId}`) {
+                        item.classList.remove("expanded");
+                    }
+                });
+            }
+        }
+
+        // Usar un cajero - redirigir a cajero.html
+        function useATM(atmId, atmName) {
+            // Guardar información del cajero seleccionado
+            localStorage.setItem("selectedATM", JSON.stringify({
+                id: atmId,
+                name: atmName
+            }));
+
+            // Redirigir a la página del cajero
+            window.location.href = "cajero.html";
+        }
+
+        // Cerrar modal de transferencia
+        function closeTransferModal() {
+            document.getElementById("transferModal").classList.remove("active");
+            document.getElementById("transferForm").reset();
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById("transferModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeTransferModal();
+            }
+        });
+
+        // Cerrar modal de cajero al hacer clic fuera
+        document.getElementById("atmModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeAtmModal();
+            }
+        });
+
+        // Cerrar modal de detalles de préstamo al hacer clic fuera
+        document.getElementById("loanDetailModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeLoanDetailModal();
+            }
+        });
+
+        // Manejar envío de transferencia
+        document.getElementById("transferForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const destination = document.getElementById("transferDestination").value;
+            const amount = parseFloat(document.getElementById("transferAmount").value);
+            const description = document.getElementById("transferDescription").value;
+
+            if (!destination || !amount || !description) {
+                alert("Por favor complete todos los campos");
+                return;
+            }
+
+            if (amount <= 0) {
+                alert("El monto debe ser mayor a cero");
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para enviar la transferencia al servidor
+            // Por ahora solo mostramos un mensaje y agregamos la transacción al historial
+
+            // Agregar transacción al historial
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+            }
+
+            const newTransaction = {
+                fecha: new Date().toISOString().split('T')[0],
+                monto: -amount,
+                estado: "success",
+                descripcion: description
+            };
+
+            transactions.unshift(newTransaction);
+            localStorage.setItem("userTransactions", JSON.stringify(transactions));
+
+            alert("✅ Transferencia enviada correctamente");
+            closeTransferModal();
+
+            // Si estamos en el panel de movimientos, recargar las transacciones
+            if (document.getElementById("panelMovimientos").classList.contains("active")) {
+                loadTransactions();
+            }
+        });
+
+        // --- LÓGICA DE PRÉSTAMOS ---
+        function openLoanModal() {
+            // Preparar valores por defecto
+            const startInput = document.getElementById("loanStartDate");
+            const today = new Date();
+            const isoToday = today.toISOString().split('T')[0];
+            startInput.value = isoToday;
+
+            const termInput = document.getElementById("loanTermDays");
+            if (!termInput.value) termInput.value = 30;
+
+            updateLoanDueDate();
+
+            document.getElementById("loanModal").classList.add("active");
+        }
+
+        function closeLoanModal() {
+            document.getElementById("loanModal").classList.remove("active");
+            document.getElementById("loanForm").reset();
+            document.getElementById("loanDueDate").textContent = "-";
+        }
+
+        // Actualiza la fecha de vencimiento en base a fecha inicio + plazo (días)
+        function updateLoanDueDate() {
+            const startVal = document.getElementById("loanStartDate").value;
+            const daysVal = parseInt(document.getElementById("loanTermDays").value, 10);
+
+            if (!startVal || isNaN(daysVal)) {
+                document.getElementById("loanDueDate").textContent = "-";
+                return;
+            }
+
+            const startDate = new Date(startVal + "T00:00:00");
+            const dueDate = new Date(startDate);
+            dueDate.setDate(dueDate.getDate() + daysVal);
+
+            const formatted = dueDate.toLocaleDateString('es-CO', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+
+            document.getElementById("loanDueDate").textContent = formatted;
+        }
+
+        // Manejar envío de solicitud de préstamo (aquí solo simulación / almacenamiento local)
+        document.getElementById("loanForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const amount = parseFloat(document.getElementById("loanAmount").value);
+            const start = document.getElementById("loanStartDate").value;
+            const days = parseInt(document.getElementById("loanTermDays").value, 10);
+
+            if (!amount || amount <= 0) {
+                alert("Ingrese un monto válido para el préstamo");
+                return;
+            }
+            if (!start) {
+                alert("Ingrese la fecha de inicio del préstamo");
+                return;
+            }
+            if (!days || days <= 0) {
+                alert("Ingrese un plazo válido en días");
+                return;
+            }
+
+            // Calcular fecha de vencimiento para almacenar
+            const startDate = new Date(start + "T00:00:00");
+            const dueDate = new Date(startDate);
+            dueDate.setDate(dueDate.getDate() + days);
+            const dueIso = dueDate.toISOString().split('T')[0];
+
+            // Guardar solicitud localmente (simulación)
+            let loans = [];
+            try {
+                const loansStr = localStorage.getItem("userLoans");
+                if (loansStr) loans = JSON.parse(loansStr);
+            } catch (err) {
+                console.error("Error cargando préstamos:", err);
+            }
+
+            const newLoan = {
+                id: Date.now(),
+                monto: amount,
+                inicio: start,
+                plazoDias: days,
+                vencimiento: dueIso,
+                estado: "solicitado",
+                creadoEn: new Date().toISOString()
+            };
+
+            loans.unshift(newLoan);
+            localStorage.setItem("userLoans", JSON.stringify(loans));
+
+            alert("✅ Solicitud de préstamo enviada. Revisaremos tu solicitud y te contactaremos.");
+            closeLoanModal();
+        });
+
+        // Cerrar modal de préstamo al hacer clic fuera
+        document.getElementById("loanModal").addEventListener("click", function (e) {
+            if (e.target === this) {
+                closeLoanModal();
+            }
+        });
+
+        // Actualizar fecha de vencimiento en tiempo real cuando cambien los campos
+        document.getElementById("loanStartDate").addEventListener("change", updateLoanDueDate);
+        document.getElementById("loanTermDays").addEventListener("input", updateLoanDueDate);
+
+        // --- FIN LÓGICA DE PRÉSTAMOS ---
+
+        try {
+            const usuarioStr = localStorage.getItem("usuario");
+            if (usuarioStr) {
+                usuario = JSON.parse(usuarioStr);
+                loadUserData();
+            }
+        } catch (e) {
+            console.error("Error al cargar usuario:", e);
+        }
+
+        // Cargar tarjetas al iniciar
+        loadCards();
+
+        function loadUserData() {
+            if (!usuario) return;
+
+            // Actualizar saludo
+            const nombre = usuario.nombre_cliente || usuario.nombre || "Usuario";
+            document.getElementById("userGreeting").textContent = `Hola, ${nombre.split(" ")[0]}`;
+
+            // Actualizar datos
+            if (usuario.email) document.getElementById("value-correo").textContent = usuario.email;
+            if (usuario.nombre_cliente || usuario.nombre) {
+                document.getElementById("value-nombre").textContent = usuario.nombre_cliente || usuario.nombre;
+            }
+            if (usuario.telefono_cliente || usuario.telefono) {
+                document.getElementById("value-telefono").textContent = usuario.telefono_cliente || usuario.telefono;
+            }
+            if (usuario.numero_cuenta || usuario.cuenta) {
+                document.getElementById("value-cuenta").textContent = usuario.numero_cuenta || usuario.cuenta || "0000000000";
+            }
+            if (usuario.saldo || usuario.balance) {
+                const saldo = usuario.saldo || usuario.balance || 0;
+                document.getElementById("balanceDisplay").textContent = formatCurrency(saldo);
+            }
+
+            // Cargar información en el resumen
+            loadSummaryData();
+            // Cargar préstamos activos
+            loadActiveLoans();
+        }
+
+        // Cargar información de cuenta en el resumen
+        function loadSummaryData() {
+            if (!usuario) return;
+
+            // Actualizar correo
+            if (usuario.email) {
+                document.getElementById("summaryEmail").textContent = usuario.email;
+            }
+
+            // Actualizar teléfono
+            if (usuario.telefono_cliente || usuario.telefono) {
+                document.getElementById("summaryPhone").textContent = usuario.telefono_cliente || usuario.telefono;
+            }
+
+            // La contraseña se maneja por separado con el botón de ojo
+        }
+
+        // Toggle mostrar/ocultar contraseña en resumen
+        let summaryPasswordVisible = false;
+        function toggleSummaryPassword() {
+            summaryPasswordVisible = !summaryPasswordVisible;
+            const passwordElement = document.getElementById("summaryPassword");
+            const toggleBtn = document.getElementById("summaryPasswordToggle");
+            
+            if (summaryPasswordVisible) {
+                // Mostrar contraseña real
+                const password = usuario?.contrasena || usuario?.password || "••••••••";
+                passwordElement.textContent = password;
+                passwordElement.classList.remove("hidden");
+                toggleBtn.textContent = "👁️‍🗨️";
+                toggleBtn.title = "Ocultar contraseña";
+            } else {
+                // Ocultar contraseña
+                passwordElement.textContent = "••••••••";
+                passwordElement.classList.add("hidden");
+                toggleBtn.textContent = "👁️";
+                toggleBtn.title = "Mostrar contraseña";
+            }
+        }
+
+        // Generar cuotas para un préstamo
+        function generateCuotas(loan) {
+            const cuotas = [];
+            const montoCuota = (loan.monto || 0) / 6; // 6 cuotas por defecto
+            const capitalCuota = (loan.monto || 0) / 6;
+            
+            // Validar y crear fecha de inicio
+            let fechaInicio;
+            if (loan.fechaInicio) {
+                fechaInicio = new Date(loan.fechaInicio);
+                if (isNaN(fechaInicio.getTime())) {
+                    // Si la fecha es inválida, usar fecha actual
+                    fechaInicio = new Date();
+                }
+            } else {
+                // Si no hay fecha de inicio, usar fecha actual
+                fechaInicio = new Date();
+            }
+            
+            for (let i = 1; i <= 6; i++) {
+                const fechaVencimiento = new Date(fechaInicio);
+                fechaVencimiento.setMonth(fechaVencimiento.getMonth() + i);
+                
+                // Verificar que la fecha de vencimiento sea válida
+                if (isNaN(fechaVencimiento.getTime())) {
+                    fechaVencimiento.setTime(fechaInicio.getTime() + (i * 30 * 24 * 60 * 60 * 1000)); // Agregar días en milisegundos
+                }
+                
+                // Determinar estado de la cuota
+                let estado = "pendiente";
+                let fechaPago = null;
+                
+                // Simular algunas cuotas pagadas
+                if (i <= 2) {
+                    estado = "pagada";
+                    fechaPago = new Date(fechaVencimiento);
+                    fechaPago.setDate(fechaPago.getDate() - 2);
+                    
+                    // Verificar que la fecha de pago sea válida
+                    if (isNaN(fechaPago.getTime())) {
+                        fechaPago = new Date(fechaVencimiento);
+                        fechaPago.setTime(fechaPago.getTime() - (2 * 24 * 60 * 60 * 1000));
+                    }
+                }
+                
+                cuotas.push({
+                    numero: i,
+                    monto: montoCuota,
+                    capital: capitalCuota,
+                    fechaVencimiento: fechaVencimiento.toISOString().split('T')[0],
+                    fechaPago: fechaPago && !isNaN(fechaPago.getTime()) ? fechaPago.toISOString().split('T')[0] : null,
+                    estado: estado
+                });
+            }
+            
+            return cuotas;
+        }
+
+        // Validar y limpiar préstamo
+        function validateLoan(loan) {
+            // Validar monto
+            if (!loan.monto || isNaN(loan.monto) || loan.monto <= 0) {
+                loan.monto = 0;
+            }
+            
+            // Validar saldo
+            if (!loan.saldo || isNaN(loan.saldo) || loan.saldo < 0) {
+                loan.saldo = loan.monto || 0;
+            }
+            
+            // Validar fechas
+            if (loan.fechaInicio) {
+                const fechaInicio = new Date(loan.fechaInicio);
+                if (isNaN(fechaInicio.getTime())) {
+                    loan.fechaInicio = new Date().toISOString().split('T')[0];
+                }
+            } else {
+                loan.fechaInicio = new Date().toISOString().split('T')[0];
+            }
+            
+            if (loan.fechaVencimiento) {
+                const fechaVenc = new Date(loan.fechaVencimiento);
+                if (isNaN(fechaVenc.getTime())) {
+                    const fechaInicio = new Date(loan.fechaInicio);
+                    fechaInicio.setMonth(fechaInicio.getMonth() + 6);
+                    loan.fechaVencimiento = fechaInicio.toISOString().split('T')[0];
+                }
+            } else {
+                const fechaInicio = new Date(loan.fechaInicio);
+                fechaInicio.setMonth(fechaInicio.getMonth() + 6);
+                loan.fechaVencimiento = fechaInicio.toISOString().split('T')[0];
+            }
+            
+            if (loan.ultimoPago) {
+                const fechaPago = new Date(loan.ultimoPago);
+                if (isNaN(fechaPago.getTime())) {
+                    loan.ultimoPago = null;
+                }
+            }
+            
+            // Validar otros campos
+            if (!loan.sucursal) loan.sucursal = "Sucursal Principal";
+            if (!loan.tasaInteres || isNaN(loan.tasaInteres)) loan.tasaInteres = 1.5;
+            if (!loan.estado) loan.estado = "activo";
+            
+            return loan;
+        }
+
+        // Cargar préstamos activos
+        function loadActiveLoans() {
+            const loansList = document.getElementById("loansList");
+            
+            // Cargar préstamos desde localStorage
+            let loans = [];
+            try {
+                const loansStr = localStorage.getItem("userLoans");
+                if (loansStr) {
+                    loans = JSON.parse(loansStr);
+                    // Validar y limpiar cada préstamo
+                    loans = loans.map(loan => validateLoan(loan));
+                    // Guardar préstamos validados
+                    localStorage.setItem("userLoans", JSON.stringify(loans));
+                } else {
+                    // Préstamos de ejemplo si no hay ninguno
+                    const loan1 = {
+                        id: 1,
+                        sucursal: "Sucursal Centro",
+                        monto: 5000000,
+                        tasaInteres: 1.5,
+                        fechaInicio: "2024-10-01",
+                        fechaVencimiento: "2025-04-01",
+                        estado: "activo",
+                        ultimoPago: "2025-01-15",
+                        saldo: 3500000
+                    };
+                    loan1.cuotas = generateCuotas(loan1);
+                    
+                    const loan2 = {
+                        id: 2,
+                        sucursal: "Sucursal Norte",
+                        monto: 3000000,
+                        tasaInteres: 1.8,
+                        fechaInicio: "2024-11-15",
+                        fechaVencimiento: "2025-05-15",
+                        estado: "activo",
+                        ultimoPago: "2025-01-20",
+                        saldo: 1200000
+                    };
+                    loan2.cuotas = generateCuotas(loan2);
+                    
+                    loans = [loan1, loan2];
+                    localStorage.setItem("userLoans", JSON.stringify(loans));
+                }
+            } catch (e) {
+                console.error("Error al cargar préstamos:", e);
+                loans = [];
+            }
+
+            // Limpiar lista
+            loansList.innerHTML = "";
+
+            // Renderizar préstamos
+            if (loans.length === 0) {
+                loansList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No tienes préstamos activos</div>';
+            } else {
+                loans.forEach(loan => {
+                    const loanDiv = document.createElement("div");
+                    loanDiv.className = "bank-loan-item";
+                    loanDiv.style.cursor = "pointer";
+                    
+                    loanDiv.innerHTML = `
+                        <div class="bank-loan-row">
+                            <div class="bank-loan-label">Monto del préstamo</div>
+                            <div class="bank-loan-value amount">${formatCurrency(loan.monto || 0)}</div>
+                        </div>
+                        <div class="bank-loan-row">
+                            <div class="bank-loan-label">Saldo pendiente</div>
+                            <div class="bank-loan-value balance">${formatCurrency(loan.saldo || 0)}</div>
+                        </div>
+                        <div class="bank-loan-row">
+                            <div class="bank-loan-label">Último pago</div>
+                            <div class="bank-loan-value">${loan.ultimoPago ? formatDate(loan.ultimoPago) : "N/A"}</div>
+                        </div>
+                    `;
+                    // Agregar event listener después de crear el HTML
+                    loanDiv.addEventListener("click", function(e) {
+                        e.stopPropagation();
+                        console.log("Click en préstamo:", loan);
+                        showLoanDetails(loan);
+                    });
+                    loansList.appendChild(loanDiv);
+                });
+            }
+        }
+
+        // Mostrar detalles del préstamo
+        function showLoanDetails(loan) {
+            console.log("showLoanDetails llamado con:", loan);
+            try {
+                // Validar el préstamo antes de mostrar
+                loan = validateLoan(loan);
+                
+                const modal = document.getElementById("loanDetailModal");
+                const content = document.getElementById("loanDetailContent");
+                
+                console.log("Modal encontrado:", modal);
+                console.log("Content encontrado:", content);
+                
+                if (!modal) {
+                    console.error("Modal no encontrado");
+                    alert("Error: No se encontró el modal de detalles");
+                    return;
+                }
+                
+                if (!content) {
+                    console.error("Contenido del modal no encontrado");
+                    alert("Error: No se encontró el contenido del modal");
+                    return;
+                }
+                
+                // Determinar clase de estado
+                let estadoClass = "activo";
+                if (loan.estado === "vencido") estadoClass = "vencido";
+                if (loan.estado === "pagado") estadoClass = "pagado";
+                
+                // Generar cuotas si no existen
+                if (!loan.cuotas || loan.cuotas.length === 0) {
+                    try {
+                        loan.cuotas = generateCuotas(loan);
+                    } catch (error) {
+                        console.error("Error al generar cuotas:", error);
+                        loan.cuotas = [];
+                    }
+                }
+            
+            content.innerHTML = `
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Sucursal</div>
+                    <div class="bank-loan-detail-value">${loan.sucursal || "N/A"}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Monto del préstamo</div>
+                    <div class="bank-loan-detail-value amount">${formatCurrency(loan.monto || 0)}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Tasa de interés</div>
+                    <div class="bank-loan-detail-value">${loan.tasaInteres || 0}%</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Fecha de inicio</div>
+                    <div class="bank-loan-detail-value">${loan.fechaInicio ? formatDate(loan.fechaInicio) : "N/A"}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Fecha de vencimiento</div>
+                    <div class="bank-loan-detail-value">${loan.fechaVencimiento ? formatDate(loan.fechaVencimiento) : "N/A"}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Estado</div>
+                    <div class="bank-loan-detail-value status ${estadoClass}">${loan.estado || "activo"}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Fecha del último pago</div>
+                    <div class="bank-loan-detail-value">${loan.ultimoPago ? formatDate(loan.ultimoPago) : "N/A"}</div>
+                </div>
+                <div class="bank-loan-detail-item">
+                    <div class="bank-loan-detail-label">Saldo del préstamo</div>
+                    <div class="bank-loan-detail-value balance">${formatCurrency(loan.saldo || 0)}</div>
+                </div>
+                
+                <!-- Sección de Cuotas -->
+                <div class="bank-loan-cuotas-section">
+                    <div class="bank-loan-cuotas-header">
+                        <div class="bank-loan-cuotas-title">💰 Cuotas</div>
+                        <div class="bank-loan-cuotas-buttons">
+                            <button class="bank-loan-cuotas-btn" onclick="toggleCuotasList(${loan.id})">Ver Cuotas</button>
+                            <button class="bank-loan-cuotas-btn secondary" onclick="hacerAbonoExtraordinario(${loan.id})">Hacer abono extraordinario</button>
+                        </div>
+                    </div>
+                    <div class="bank-loan-cuotas-list" id="cuotasList-${loan.id}">
+                        ${renderCuotas(loan.cuotas, loan.id)}
+                    </div>
+                </div>
+            `;
+            
+                modal.classList.add("active");
+            } catch (error) {
+                console.error("Error al mostrar detalles del préstamo:", error);
+                alert("Error al mostrar los detalles del préstamo: " + error.message);
+            }
+        }
+
+        // Renderizar cuotas
+        function renderCuotas(cuotas, loanId) {
+            if (!cuotas || cuotas.length === 0) {
+                return '<div style="text-align: center; color: #999; padding: 20px;">No hay cuotas disponibles</div>';
+            }
+            
+            return cuotas.map(cuota => {
+                const estadoClass = cuota.estado === "pagada" ? "pagada" : (cuota.estado === "vencida" ? "vencida" : "pendiente");
+                const puedePagar = cuota.estado === "pendiente" || cuota.estado === "vencida";
+                
+                return `
+                    <div class="bank-loan-cuota-item">
+                        <div class="bank-loan-cuota-header">
+                            <div class="bank-loan-cuota-number">Cuota #${cuota.numero}</div>
+                            <div class="bank-loan-cuota-status ${estadoClass}">${cuota.estado}</div>
+                        </div>
+                        <div class="bank-loan-cuota-details">
+                            <div class="bank-loan-cuota-detail">
+                                <div class="bank-loan-cuota-detail-label">Monto de la cuota</div>
+                                <div class="bank-loan-cuota-detail-value">${formatCurrency(cuota.monto)}</div>
+                            </div>
+                            <div class="bank-loan-cuota-detail">
+                                <div class="bank-loan-cuota-detail-label">Capital de la cuota</div>
+                                <div class="bank-loan-cuota-detail-value">${formatCurrency(cuota.capital)}</div>
+                            </div>
+                            <div class="bank-loan-cuota-detail">
+                                <div class="bank-loan-cuota-detail-label">Fecha de vencimiento</div>
+                                <div class="bank-loan-cuota-detail-value">${cuota.fechaVencimiento ? formatDate(cuota.fechaVencimiento) : "N/A"}</div>
+                            </div>
+                            <div class="bank-loan-cuota-detail">
+                                <div class="bank-loan-cuota-detail-label">Fecha de pago</div>
+                                <div class="bank-loan-cuota-detail-value">${cuota.fechaPago ? formatDate(cuota.fechaPago) : "Pendiente"}</div>
+                            </div>
+                        </div>
+                        <button class="bank-loan-cuota-pay-btn" 
+                                onclick="pagarCuota(${loanId}, ${cuota.numero})" 
+                                ${!puedePagar ? 'disabled' : ''}>
+                            ${puedePagar ? 'Pagar cuota' : 'Cuota pagada'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle mostrar/ocultar lista de cuotas
+        function toggleCuotasList(loanId) {
+            const cuotasList = document.getElementById(`cuotasList-${loanId}`);
+            if (cuotasList) {
+                cuotasList.classList.toggle("active");
+            }
+        }
+
+        // Pagar cuota
+        function pagarCuota(loanId, numeroCuota) {
+            // Cargar préstamos
+            let loans = [];
+            try {
+                const loansStr = localStorage.getItem("userLoans");
+                if (loansStr) {
+                    loans = JSON.parse(loansStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar préstamos:", e);
+            }
+            
+            const loan = loans.find(l => l.id === loanId);
+            if (!loan) {
+                alert("Error: No se encontró el préstamo");
+                return;
+            }
+            
+            const cuota = loan.cuotas.find(c => c.numero === numeroCuota);
+            if (!cuota) {
+                alert("Error: No se encontró la cuota");
+                return;
+            }
+            
+            if (cuota.estado === "pagada") {
+                alert("Esta cuota ya está pagada");
+                return;
+            }
+            
+            // Verificar saldo disponible
+            const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+            const saldo = usuario.saldo || usuario.balance || 0;
+            
+            if (saldo < cuota.monto) {
+                alert("No tienes saldo suficiente para pagar esta cuota");
+                return;
+            }
+            
+            // Confirmar pago
+            if (!confirm(`¿Desea pagar la cuota #${numeroCuota} por ${formatCurrency(cuota.monto)}?`)) {
+                return;
+            }
+            
+            // Realizar transferencia (simulada)
+            // Actualizar saldo del usuario
+            usuario.saldo = (usuario.saldo || usuario.balance || 0) - cuota.monto;
+            usuario.balance = usuario.saldo;
+            localStorage.setItem("usuario", JSON.stringify(usuario));
+            
+            // Actualizar estado de la cuota
+            cuota.estado = "pagada";
+            cuota.fechaPago = new Date().toISOString().split('T')[0];
+            
+            // Actualizar saldo del préstamo
+            loan.saldo = (loan.saldo || loan.monto) - cuota.capital;
+            loan.ultimoPago = cuota.fechaPago;
+            
+            // Guardar préstamos actualizados
+            localStorage.setItem("userLoans", JSON.stringify(loans));
+            
+            // Agregar transacción
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+            }
+            
+            const newTransaction = {
+                fecha: new Date().toISOString().split('T')[0],
+                monto: -cuota.monto,
+                estado: "success",
+                descripcion: `Pago de cuota #${numeroCuota} - Préstamo ${loan.sucursal}`
+            };
+            
+            transactions.unshift(newTransaction);
+            localStorage.setItem("userTransactions", JSON.stringify(transactions));
+            
+            // Actualizar balance en pantalla
+            document.getElementById("balanceDisplay").textContent = formatCurrency(usuario.saldo);
+            
+            // Recargar detalles del préstamo
+            showLoanDetails(loan);
+            
+            alert(`✅ Cuota #${numeroCuota} pagada exitosamente`);
+        }
+
+        // Hacer abono extraordinario
+        function hacerAbonoExtraordinario(loanId) {
+            alert("Funcionalidad de abono extraordinario próximamente disponible");
+        }
+
+        // Cerrar modal de detalles de préstamo
+        function closeLoanDetailModal() {
+            document.getElementById("loanDetailModal").classList.remove("active");
+        }
+
+        // Cerrar sesión
+        function cerrarSesion() {
+            if (confirm("¿Está seguro que desea cerrar sesión?")) {
+                // Limpiar datos de sesión si es necesario
+                // localStorage.removeItem("userSession");
+                // Redirigir al index
+                window.location.href = "index.html";
+            }
+        }
+
+        function formatCurrency(amount) {
+            // Verificar si el monto es válido
+            if (amount === null || amount === undefined || isNaN(amount)) {
+                return "$ 0,00";
+            }
+            
+            try {
+                const numAmount = parseFloat(amount);
+                if (isNaN(numAmount)) {
+                    return "$ 0,00";
+                }
+                
+                return new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP',
+                    minimumFractionDigits: 2
+                }).format(numAmount);
+            } catch (error) {
+                console.error("Error al formatear moneda:", error, amount);
+                return "$ 0,00";
+            }
+        }
+
+        // Toggle menú editar datos
+        document.getElementById("editDataMenu").addEventListener("click", function (e) {
+            if (!e.target.classList.contains("bank-edit-btn") && !e.target.closest(".bank-edit-form")) {
+                this.classList.toggle("active");
+            }
+        });
+
+        // Toggle edición de campo individual
+        function toggleEdit(field) {
+            const item = document.querySelector(`[data-field="${field}"]`);
+            const isEditing = item.classList.contains("editing");
+
+            // Cerrar todos los demás campos en edición
+            document.querySelectorAll(".bank-data-item.editing").forEach(el => {
+                if (el !== item) {
+                    el.classList.remove("editing");
+                }
+            });
+
+            // Toggle el campo actual
+            item.classList.toggle("editing");
+
+            // Si se está abriendo, limpiar los inputs
+            if (!isEditing) {
+                if (field === "contraseña") {
+                    // Para contraseña, limpiar todos los campos
+                    document.getElementById("input-contraseña-actual").value = "";
+                    document.getElementById("input-contraseña").value = "";
+                    document.getElementById("input-contraseña-confirm").value = "";
+                    document.getElementById("input-contraseña-actual").focus();
+                } else {
+                    const currentValue = document.getElementById(`value-${field}`).textContent;
+                    const input = document.getElementById(`input-${field}`);
+                    input.value = currentValue;
+                    input.focus();
+                }
+            }
+        }
+
+        // Guardar datos
+        async function saveData(field) {
+            const input = document.getElementById(`input-${field}`);
+            const newValue = input.value.trim();
+
+            if (!newValue) {
+                alert("Por favor ingrese un valor válido");
+                return;
+            }
+
+            // Validaciones específicas
+            if (field === "correo" && !newValue.includes("@")) {
+                alert("Por favor ingrese un correo válido");
+                return;
+            }
+
+            // Actualizar el valor mostrado
+            const valueElement = document.getElementById(`value-${field}`);
+            valueElement.textContent = newValue;
+
+            // Aquí puedes agregar la lógica para guardar en el servidor
+            // Por ahora solo actualizamos el localStorage
+            if (usuario) {
+                const fieldMap = {
+                    "correo": "email",
+                    "nombre": "nombre_cliente",
+                    "telefono": "telefono_cliente",
+                    "cuenta": "numero_cuenta"
+                };
+
+                const serverField = fieldMap[field];
+                if (serverField) {
+                    usuario[serverField] = newValue;
+                    localStorage.setItem("usuario", JSON.stringify(usuario));
+                }
+            }
+
+            // Cerrar el formulario de edición
+            document.querySelector(`[data-field="${field}"]`).classList.remove("editing");
+
+            alert("✅ Datos guardados correctamente");
+        }
+
+        // Guardar contraseña con validación
+        async function savePassword() {
+            const currentPassword = document.getElementById("input-contraseña-actual").value;
+            const newPassword = document.getElementById("input-contraseña").value;
+            const confirmPassword = document.getElementById("input-contraseña-confirm").value;
+
+            // Validaciones
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert("Por favor complete todos los campos");
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                alert("La contraseña debe tener al menos 8 caracteres");
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+
+            // Aquí puedes agregar la lógica para verificar la contraseña actual en el servidor
+            // Por ahora solo actualizamos el localStorage
+            if (usuario) {
+                usuario.contrasena = newPassword;
+                localStorage.setItem("usuario", JSON.stringify(usuario));
+            }
+
+            // Limpiar campos
+            document.getElementById("input-contraseña-actual").value = "";
+            document.getElementById("input-contraseña").value = "";
+            document.getElementById("input-contraseña-confirm").value = "";
+
+            // Cerrar el formulario de edición
+            document.querySelector(`[data-field="contraseña"]`).classList.remove("editing");
+
+            alert("✅ Contraseña cambiada correctamente");
+        }
+
+        // Toggle balance visibility
+        let balanceVisible = true;
+        document.getElementById("toggleBalance").addEventListener("click", function () {
+            balanceVisible = !balanceVisible;
+            const balanceDisplay = document.getElementById("balanceDisplay");
+            if (balanceVisible) {
+                balanceDisplay.classList.remove("bank-hidden");
+                this.textContent = "👁️";
+            } else {
+                balanceDisplay.classList.add("bank-hidden");
+                this.textContent = "👁️‍🗨️";
+            }
+        });
+
+        // Navegación inferior - Cambiar entre paneles
+        document.querySelectorAll(".bank-nav-item").forEach(item => {
+            item.addEventListener("click", function () {
+                const targetPanel = this.getAttribute("data-panel");
+
+                // Remover active de todos los items de navegación
+                document.querySelectorAll(".bank-nav-item").forEach(nav => {
+                    nav.classList.remove("active");
+                });
+
+                // Agregar active al item clickeado
+                this.classList.add("active");
+
+                // Ocultar todos los paneles
+                document.querySelectorAll(".bank-panel").forEach(panel => {
+                    panel.classList.remove("active");
+                });
+
+                // Mostrar el panel correspondiente
+                if (targetPanel) {
+                    const panel = document.getElementById(targetPanel);
+                    if (panel) {
+                        panel.classList.add("active");
+
+                        // Si es el panel de movimientos, cargar transacciones
+                        if (targetPanel === "panelMovimientos") {
+                            loadTransactions();
+                        }
+                    }
+                }
+            });
+        });
+
+        // Cargar transacciones
+        function loadTransactions() {
+            const tbody = document.getElementById("transactionsTableBody");
+
+            // Cargar transacciones desde localStorage o usar datos de ejemplo
+            let transactions = [];
+            try {
+                const transStr = localStorage.getItem("userTransactions");
+                if (transStr) {
+                    transactions = JSON.parse(transStr);
+                } else {
+                    // Transacciones de ejemplo
+                    transactions = [
+                        {
+                            fecha: "2025-01-15",
+                            monto: 50000,
+                            estado: "success",
+                            descripcion: "Transferencia recibida"
+                        },
+                        {
+                            fecha: "2025-01-14",
+                            monto: -25000,
+                            estado: "success",
+                            descripcion: "Pago en supermercado"
+                        },
+                        {
+                            fecha: "2025-01-13",
+                            monto: 100000,
+                            estado: "pending",
+                            descripcion: "Depósito pendiente"
+                        },
+                        {
+                            fecha: "2025-01-12",
+                            monto: -15000,
+                            estado: "failed",
+                            descripcion: "Transferencia fallida"
+                        }
+                    ];
+                    localStorage.setItem("userTransactions", JSON.stringify(transactions));
+                }
+            } catch (e) {
+                console.error("Error al cargar transacciones:", e);
+                transactions = [];
+            }
+
+            // Limpiar tabla
+            tbody.innerHTML = "";
+
+            // Renderizar transacciones
+            if (transactions.length === 0) {
+                tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 40px; color: #999;">
+                                No hay transacciones registradas
+                            </td>
+                        </tr>
+                    `;
+            } else {
+                transactions.forEach(trans => {
+                    const row = document.createElement("tr");
+
+                    // Formatear fecha
+                    const fecha = new Date(trans.fecha);
+                    const fechaFormateada = fecha.toLocaleDateString('es-CO', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    });
+
+                    // Formatear monto
+                    const montoFormateado = formatCurrency(Math.abs(trans.monto));
+                    const montoClass = trans.monto >= 0 ? "positive" : "negative";
+                    const montoSign = trans.monto >= 0 ? "+" : "-";
+
+                    // Estado
+                    let estadoBadge = "";
+                    let estadoText = "";
+                    switch (trans.estado) {
+                        case "success":
+                            estadoBadge = "success";
+                            estadoText = "Completada";
+                            break;
+                        case "pending":
+                            estadoBadge = "pending";
+                            estadoText = "Pendiente";
+                            break;
+                        case "failed":
+                            estadoBadge = "failed";
+                            estadoText = "Fallida";
+                            break;
+                        default:
+                            estadoBadge = "pending";
+                            estadoText = "Pendiente";
+                    }
+
+                    row.innerHTML = `
+                            <td>${fechaFormateada}</td>
+                            <td><span class="bank-amount ${montoClass}">${montoSign} ${montoFormateado}</span></td>
+                            <td><span class="bank-status-badge ${estadoBadge}">${estadoText}</span></td>
+                            <td>${trans.descripcion}</td>
+                        `;
+                    tbody.appendChild(row);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

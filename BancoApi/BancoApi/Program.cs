@@ -1,4 +1,5 @@
 using BancoApi.Services;
+using BancoAPI.Services;
 using Oracle.ManagedDataAccess.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddScoped<service_Cliente>();
 builder.Services.AddScoped<service_Sucursal>();  // <- ÚNICO QUE NECESITAS
 builder.Services.AddScoped<service_Cajero>();
 builder.Services.AddScoped<service_Cuenta>();
+builder.Services.AddScoped<TarjetasService>();
+
 
 
 

@@ -590,6 +590,91 @@
         }
       }
     },
+    "/api/controller_Cuota/service_generarCuotas": {
+      "post": {
+        "tags": [
+          "controller_Cuota"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaGenerar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaGenerar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaGenerar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuota/service_pagarCuota": {
+      "post": {
+        "tags": [
+          "controller_Cuota"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaPagar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaPagar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_CuotaPagar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Cuota/service_listarCuotas/{idPrestamo}": {
+      "get": {
+        "tags": [
+          "controller_Cuota"
+        ],
+        "parameters": [
+          {
+            "name": "idPrestamo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/controller_Sucursal/service_listar": {
       "get": {
         "tags": [
@@ -921,6 +1006,30 @@
         },
         "additionalProperties": false
       },
+      "model_CuotaGenerar": {
+        "type": "object",
+        "properties": {
+          "idPrestamo": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "model_CuotaPagar": {
+        "type": "object",
+        "properties": {
+          "idCuota": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "model_LoginRequest": {
         "type": "object",
         "properties": {
@@ -989,6 +1098,9 @@
     },
     {
       "name": "controller_Cuenta"
+    },
+    {
+      "name": "controller_Cuota"
     },
     {
       "name": "controller_Sucursal"

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\juego\\Desktop\\BANKito\\BancoApi\\BancoApi\\BancoApi.csproj": {}
+    "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\BancoApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\juego\\Desktop\\BANKito\\BancoApi\\BancoApi\\BancoApi.csproj": {
+    "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\BancoApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\juego\\Desktop\\BANKito\\BancoApi\\BancoApi\\BancoApi.csproj",
+        "projectUniqueName": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\BancoApi.csproj",
         "projectName": "BancoApi",
-        "projectPath": "C:\\Users\\juego\\Desktop\\BANKito\\BancoApi\\BancoApi\\BancoApi.csproj",
-        "packagesPath": "C:\\Users\\juego\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\juego\\Desktop\\BANKito\\BancoApi\\BancoApi\\obj\\",
+        "projectPath": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\BancoApi.csproj",
+        "packagesPath": "C:\\Users\\anama\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\juego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\anama\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -90,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

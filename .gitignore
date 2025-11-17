@@ -1,0 +1,21 @@
+# Build results
+bin/
+obj/
+Release/
+Debug/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# .NET specific
+project.assets.json
+project.nuget.cache
+*.deps.json
+*.dll
+*.pdb
+
+# Cache
+*.cache
+*.cache.json

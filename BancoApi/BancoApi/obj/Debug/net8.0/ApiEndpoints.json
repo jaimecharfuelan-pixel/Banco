@@ -314,6 +314,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "BancoApi.Controllers.controller_Cuota",
+    "Method": "service_generarCuotas",
+    "RelativePath": "api/controller_Cuota/service_generarCuotas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuota.model_CuotaGenerar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuota",
+    "Method": "service_listarCuotas",
+    "RelativePath": "api/controller_Cuota/service_listarCuotas/{idPrestamo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idPrestamo",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Cuota",
+    "Method": "service_pagarCuota",
+    "RelativePath": "api/controller_Cuota/service_pagarCuota",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_cuota.model_CuotaPagar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "BancoApi.Controllers.controller_Sucursal",
     "Method": "service_crear",
     "RelativePath": "api/controller_Sucursal/service_crear",

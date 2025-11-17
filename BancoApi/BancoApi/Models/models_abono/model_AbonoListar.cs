@@ -1,6 +1,6 @@
-namespace BancoApi.Models.models_cuota
+namespace BancoApi.Models.models_abono
 {
-    public class model_CuotaListar
+    public class model_AbonoListar
     {
         public int idPrestamo { get; set; }
 

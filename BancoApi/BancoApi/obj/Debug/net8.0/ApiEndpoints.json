@@ -16,6 +16,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "BancoApi.Controllers.controller_Abono",
+    "Method": "service_listarAbonos",
+    "RelativePath": "api/controller_Abono/service_listarAbonos/{idPrestamo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idPrestamo",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BancoApi.Controllers.controller_Abono",
+    "Method": "service_registrarAbono",
+    "RelativePath": "api/controller_Abono/service_registrarAbono",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BancoApi.Models.models_abono.model_AbonoRegistrar",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "BancoApi.Controllers.controller_admin",
     "Method": "service_crearCuenta",
     "RelativePath": "api/controller_Admin/service_crearCuenta",
@@ -308,54 +340,6 @@
       {
         "Name": "idCuenta",
         "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "BancoApi.Controllers.controller_Cuota",
-    "Method": "service_generarCuotas",
-    "RelativePath": "api/controller_Cuota/service_generarCuotas",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "req",
-        "Type": "BancoApi.Models.models_cuota.model_CuotaGenerar",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "BancoApi.Controllers.controller_Cuota",
-    "Method": "service_listarCuotas",
-    "RelativePath": "api/controller_Cuota/service_listarCuotas/{idPrestamo}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "idPrestamo",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "BancoApi.Controllers.controller_Cuota",
-    "Method": "service_pagarCuota",
-    "RelativePath": "api/controller_Cuota/service_pagarCuota",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "req",
-        "Type": "BancoApi.Models.models_cuota.model_CuotaPagar",
         "IsRequired": true
       }
     ],

@@ -14,4 +14,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\DTO_Abono\" />
+    <Folder Include="Models\models_abono\" />
+  </ItemGroup>
+
 </Project>

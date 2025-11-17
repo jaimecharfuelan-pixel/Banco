@@ -1,7 +1,7 @@
 namespace BancoApi.DTOs
 {
-    // DTO para listar las cuotas de un préstamo
-    public class DTO_CuotaListar
+    // DTO para listar abonos de un préstamo
+    public class DTO_AbonoListar
     {
         public int idPrestamo { get; set; }
     }

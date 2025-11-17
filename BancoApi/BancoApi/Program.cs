@@ -53,7 +53,7 @@ builder.Services.AddScoped<service_Cajero>();
 builder.Services.AddScoped<service_Cuenta>();
 builder.Services.AddScoped<service_Autenticacion>();
 builder.Services.AddScoped<service_Admin>();
-builder.Services.AddScoped<service_Cuota>();
+builder.Services.AddScoped<service_Abono>();
 
 
 // =======================

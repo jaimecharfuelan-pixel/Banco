@@ -5,6 +5,60 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/controller_Abono/service_registrarAbono": {
+      "post": {
+        "tags": [
+          "controller_Abono"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_AbonoRegistrar"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_AbonoRegistrar"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/model_AbonoRegistrar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/controller_Abono/service_listarAbonos/{idPrestamo}": {
+      "get": {
+        "tags": [
+          "controller_Abono"
+        ],
+        "parameters": [
+          {
+            "name": "idPrestamo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/controller_Admin/service_solicitudes": {
       "get": {
         "tags": [
@@ -590,91 +644,6 @@
         }
       }
     },
-    "/api/controller_Cuota/service_generarCuotas": {
-      "post": {
-        "tags": [
-          "controller_Cuota"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaGenerar"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaGenerar"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaGenerar"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/controller_Cuota/service_pagarCuota": {
-      "post": {
-        "tags": [
-          "controller_Cuota"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaPagar"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaPagar"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/model_CuotaPagar"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/controller_Cuota/service_listarCuotas/{idPrestamo}": {
-      "get": {
-        "tags": [
-          "controller_Cuota"
-        ],
-        "parameters": [
-          {
-            "name": "idPrestamo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/controller_Sucursal/service_listar": {
       "get": {
         "tags": [
@@ -879,6 +848,28 @@
         },
         "additionalProperties": false
       },
+      "model_AbonoRegistrar": {
+        "type": "object",
+        "properties": {
+          "idPrestamo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "montoAbono": {
+            "type": "number",
+            "format": "double"
+          },
+          "tipoAbono": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCuenta": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "model_CajeroCambiarEstado": {
         "type": "object",
         "properties": {
@@ -1006,30 +997,6 @@
         },
         "additionalProperties": false
       },
-      "model_CuotaGenerar": {
-        "type": "object",
-        "properties": {
-          "idPrestamo": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "model_CuotaPagar": {
-        "type": "object",
-        "properties": {
-          "idCuota": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idCuenta": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "model_LoginRequest": {
         "type": "object",
         "properties": {
@@ -1085,6 +1052,9 @@
   },
   "tags": [
     {
+      "name": "controller_Abono"
+    },
+    {
       "name": "controller_admin"
     },
     {
@@ -1098,9 +1068,6 @@
     },
     {
       "name": "controller_Cuenta"
-    },
-    {
-      "name": "controller_Cuota"
     },
     {
       "name": "controller_Sucursal"

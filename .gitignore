@@ -1,0 +1,7 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/BancoApi/.vs/BancoApi
+/BancoApi/BancoApi/bin/Debug/net8.0
+/BancoApi/BancoApi/obj/Debug/net8.0

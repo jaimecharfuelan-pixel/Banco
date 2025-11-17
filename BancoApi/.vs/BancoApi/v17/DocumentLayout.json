@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|c:\\users\\anama\\proyectobdii_banco\\bancoapi\\bancoapi\\dtos\\dtos_cuota\\dto_cuotaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|solutionrelative:bancoapi\\dtos\\dtos_cuota\\dto_cuotaitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|c:\\users\\anama\\proyectobdii_banco\\bancoapi\\bancoapi\\dtos\\dtos_cuota\\dto_cuotalistar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|solutionrelative:bancoapi\\dtos\\dtos_cuota\\dto_cuotalistar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|c:\\users\\anama\\proyectobdii_banco\\bancoapi\\bancoapi\\dtos\\dtos_cuota\\dto_cuotapagar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|solutionrelative:bancoapi\\dtos\\dtos_cuota\\dto_cuotapagar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|c:\\users\\anama\\proyectobdii_banco\\bancoapi\\bancoapi\\dtos\\dtos_cuota\\dto_cuotagenerar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|solutionrelative:bancoapi\\dtos\\dtos_cuota\\dto_cuotagenerar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|c:\\users\\anama\\proyectobdii_banco\\bancoapi\\bancoapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{4D1F21BF-2C34-443B-8A98-A466AEDCF37F}|BancoApi\\BancoApi.csproj|solutionrelative:bancoapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -37,7 +53,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,7 +65,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DTO_CuotaItem.cs",
+              "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaItem.cs",
+              "RelativeDocumentMoniker": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaItem.cs",
+              "ToolTip": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaItem.cs",
+              "RelativeToolTip": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T04:52:14.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "DTO_CuotaListar.cs",
+              "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaListar.cs",
+              "RelativeDocumentMoniker": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaListar.cs",
+              "ToolTip": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaListar.cs",
+              "RelativeToolTip": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaListar.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T04:51:43.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DTO_CuotaPagar.cs",
+              "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaPagar.cs",
+              "RelativeDocumentMoniker": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaPagar.cs",
+              "ToolTip": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaPagar.cs",
+              "RelativeToolTip": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaPagar.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T04:50:48.289Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DTO_CuotaGenerar.cs",
+              "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaGenerar.cs",
+              "RelativeDocumentMoniker": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaGenerar.cs",
+              "ToolTip": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaGenerar.cs",
+              "RelativeToolTip": "BancoApi\\DTOs\\DTOs_Cuota\\DTO_CuotaGenerar.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T04:50:14.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\appsettings.Development.json",
               "RelativeDocumentMoniker": "BancoApi\\appsettings.Development.json",
@@ -62,20 +130,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\appsettings.json",
               "RelativeDocumentMoniker": "BancoApi\\appsettings.json",
               "ToolTip": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\appsettings.json",
               "RelativeToolTip": "BancoApi\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-11-17T04:10:59.027Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\.gitignore",
               "RelativeDocumentMoniker": "..\\.gitignore",
@@ -88,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\Program.cs",
               "RelativeDocumentMoniker": "BancoApi\\Program.cs",
@@ -101,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "controller_Cuota.cs",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\Controllers\\controller_Cuota.cs",
               "RelativeDocumentMoniker": "BancoApi\\Controllers\\controller_Cuota.cs",
@@ -114,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "service_Cliente.cs",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\Services\\service_Cliente.cs",
               "RelativeDocumentMoniker": "BancoApi\\Services\\service_Cliente.cs",
@@ -127,7 +195,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "service_Cuota.cs",
               "DocumentMoniker": "C:\\Users\\anama\\ProyectoBDII_Banco\\BancoApi\\BancoApi\\Services\\service_Cuota.cs",
               "RelativeDocumentMoniker": "BancoApi\\Services\\service_Cuota.cs",

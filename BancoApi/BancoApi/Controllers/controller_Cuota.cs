@@ -59,7 +59,12 @@ namespace BancoApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "Error al pagar la cuota." });
+                return StatusCode(500, new { error = 
+                "Error al pagar la cuota.",
+                detalle = ex.Message,
+                inner = ex.InnerException?.Message
+                });
+
             }
         }
 

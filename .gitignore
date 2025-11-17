@@ -1,0 +1,46 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build
+bin/
+obj/
+out/
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# ASP.NET Core
+appsettings.*.json
+appsettings.Development.json
+wwwroot/lib/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Logs
+*.log
+logs/
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user

@@ -1254,23 +1254,246 @@ create or replace PACKAGE pkgc_abonos AS
     );
 
 END pkgc_abonos;
-create or replace PACKAGE pkgc_abonos AS
 
-    -- Registrar abono extraordinario
-    PROCEDURE pr_registrar_abono(
-        p_id_prestamo     IN NUMBER,
-        p_monto_abono     IN NUMBER,
-        p_tipo_abono      IN VARCHAR2,
-        p_id_cuenta       IN NUMBER,
-        o_id_abono        OUT NUMBER,
-        o_id_transaccion  OUT NUMBER
+--MODIFICACIONES PKGC_ABONOS
+
+create or replace PACKAGE BODY pkgc_abonos AS
+------------------------------------------------------------------
+-- Función interna: genera un nuevo ID de abono
+------------------------------------------------------------------
+FUNCTION fn_generar_id_abono RETURN NUMBER IS
+    v_id NUMBER;
+BEGIN
+    SELECT NVL(MAX(id_abono), 0) + 1
+    INTO v_id
+    FROM abono_extraordinario;
+
+    RETURN v_id;
+END fn_generar_id_abono;
+
+
+------------------------------------------------------------------
+-- Función interna: genera un nuevo ID de transacción
+-- (si ya tienes otra en otro paquete, puedes reutilizarla)
+------------------------------------------------------------------
+FUNCTION fn_generar_id_transaccion RETURN NUMBER IS
+    v_id NUMBER;
+BEGIN
+    SELECT NVL(MAX(id_transaccion), 0) + 1
+    INTO v_id
+    FROM transaccion;
+
+    RETURN v_id;
+END fn_generar_id_transaccion;
+
+
+------------------------------------------------------------------
+-- Registrar abono extraordinario
+--  - Verifica que el préstamo exista y esté activo
+--  - Verifica que la cuenta exista, esté activa y tenga saldo suficiente
+--  - Inserta en TRANSACCION
+--  - Inserta en ABONO_EXTRAORDINARIO
+--  - Actualiza SALDO_PRESTAMO y FECHA_ULTIMO_PAGO_PRESTAMO
+------------------------------------------------------------------
+PROCEDURE pr_registrar_abono(
+    p_id_prestamo     IN NUMBER,
+    p_monto_abono     IN NUMBER,
+    p_tipo_abono      IN VARCHAR2,
+    p_id_cuenta       IN NUMBER,
+    o_id_abono        OUT NUMBER,
+    o_id_transaccion  OUT NUMBER
+) IS
+    v_estado_prestamo   prestamo.estado_prestamo%TYPE;
+    v_saldo_prestamo    prestamo.saldo_prestamo%TYPE;
+    v_saldo_cuenta      cuenta.saldo_cuenta%TYPE;
+    v_estado_cuenta     cuenta.estado_cuenta%TYPE;
+    v_nuevo_saldo_prestamo NUMBER;
+    v_nuevo_saldo_cuenta   NUMBER;
+    v_id_abono          NUMBER;
+    v_id_transaccion    NUMBER;
+BEGIN
+    ------------------------------------------------------------------
+    -- Validaciones básicas de parámetros
+    ------------------------------------------------------------------
+    IF p_monto_abono IS NULL OR p_monto_abono <= 0 THEN
+        RAISE_APPLICATION_ERROR(-20701,
+            'El monto del abono debe ser mayor que cero.');
+    END IF;
+
+    ------------------------------------------------------------------
+    -- Validar que el préstamo exista y obtener su estado y saldo
+    ------------------------------------------------------------------
+    BEGIN
+        SELECT  estado_prestamo,
+                saldo_prestamo
+        INTO    v_estado_prestamo,
+                v_saldo_prestamo
+        FROM prestamo
+        WHERE id_prestamo = p_id_prestamo;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(-20702,
+                'El préstamo indicado no existe.');
+    END;
+
+    IF v_estado_prestamo <> 'activo' THEN
+        RAISE_APPLICATION_ERROR(-20703,
+            'El préstamo debe estar activo para registrar abonos.');
+    END IF;
+
+    IF p_monto_abono > v_saldo_prestamo THEN
+        RAISE_APPLICATION_ERROR(-20704,
+            'El monto del abono no puede superar el saldo del préstamo.');
+    END IF;
+
+    v_nuevo_saldo_prestamo := v_saldo_prestamo - p_monto_abono;
+
+    ------------------------------------------------------------------
+    -- Validar cuenta: existencia, estado y saldo suficiente
+    ------------------------------------------------------------------
+    BEGIN
+        SELECT  saldo_cuenta,
+                estado_cuenta
+        INTO    v_saldo_cuenta,
+                v_estado_cuenta
+        FROM cuenta
+        WHERE id_cuenta = p_id_cuenta;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(-20705,
+                'La cuenta indicada no existe.');
+    END;
+
+    IF v_estado_cuenta <> 'activa' THEN
+        RAISE_APPLICATION_ERROR(-20706,
+            'La cuenta debe estar activa para registrar abonos.');
+    END IF;
+
+    IF v_saldo_cuenta < p_monto_abono THEN
+        RAISE_APPLICATION_ERROR(-20707,
+            'Saldo insuficiente en la cuenta para realizar el abono.');
+    END IF;
+
+    v_nuevo_saldo_cuenta := v_saldo_cuenta - p_monto_abono;
+
+    ------------------------------------------------------------------
+    -- Generar IDs
+    ------------------------------------------------------------------
+    v_id_abono       := fn_generar_id_abono;
+    v_id_transaccion := fn_generar_id_transaccion;
+
+    ------------------------------------------------------------------
+    -- Insertar transacción asociada al abono
+    ------------------------------------------------------------------
+    INSERT INTO transaccion (
+        id_transaccion,
+        id_cuenta_origen,
+        id_cuenta_destino,
+        monto_transaccion,
+        tipo_transaccion,
+        fecha_transaccion,
+        estado_transaccion,
+        descripcion_transaccion
+    ) VALUES (
+        v_id_transaccion,
+        p_id_cuenta,
+        NULL,
+        p_monto_abono,
+        'cuenta',
+        SYSTIMESTAMP,
+        'completada',
+        'Abono extraordinario al préstamo ' || p_id_prestamo
     );
 
-    -- Listar abonos de un préstamo
-    PROCEDURE pr_listar_abonos(
-        p_id_prestamo IN NUMBER,
-        o_cursor      OUT SYS_REFCURSOR
+    ------------------------------------------------------------------
+    -- Actualizar cuenta (descontar saldo)
+    ------------------------------------------------------------------
+    UPDATE cuenta
+    SET saldo_cuenta = v_nuevo_saldo_cuenta,
+        fecha_ultima_transaccion_cuenta = SYSTIMESTAMP
+    WHERE id_cuenta = p_id_cuenta;
+
+    ------------------------------------------------------------------
+    -- Insertar registro en ABONO_EXTRAORDINARIO
+    ------------------------------------------------------------------
+    INSERT INTO abono_extraordinario (
+        id_abono,
+        id_prestamo,
+        id_transaccion,
+        monto_abono,
+        fecha_abono,
+        tipo_abono
+    ) VALUES (
+        v_id_abono,
+        p_id_prestamo,
+        v_id_transaccion,
+        p_monto_abono,
+        SYSTIMESTAMP,
+        p_tipo_abono
     );
+
+    ------------------------------------------------------------------
+    -- Actualizar préstamo (saldo y fecha de último pago)
+    ------------------------------------------------------------------
+    UPDATE prestamo
+    SET saldo_prestamo             = v_nuevo_saldo_prestamo,
+        fecha_ultimo_pago_prestamo = SYSTIMESTAMP,
+        estado_prestamo            = CASE
+                                        WHEN v_nuevo_saldo_prestamo <= 0
+                                        THEN 'finalizado'
+                                        ELSE estado_prestamo
+                                        END
+    WHERE id_prestamo = p_id_prestamo;
+
+    ------------------------------------------------------------------
+    -- Devolver IDs generados
+    ------------------------------------------------------------------
+    o_id_abono       := v_id_abono;
+    o_id_transaccion := v_id_transaccion;
+
+    -- IMPORTANTE: no hacemos COMMIT aquí;
+    -- se deja en manos de la capa de aplicación.
+END pr_registrar_abono;
+
+
+------------------------------------------------------------------
+-- Listar abonos de un préstamo
+------------------------------------------------------------------
+PROCEDURE pr_listar_abonos(
+    p_id_prestamo IN NUMBER,
+    o_cursor      OUT SYS_REFCURSOR
+) IS
+    v_existe NUMBER;
+BEGIN
+    ------------------------------------------------------------------
+    -- Validar que el préstamo exista
+    ------------------------------------------------------------------
+    SELECT COUNT(*)
+    INTO v_existe
+    FROM prestamo
+    WHERE id_prestamo = p_id_prestamo;
+
+    IF v_existe = 0 THEN
+        RAISE_APPLICATION_ERROR(-20720,
+            'El préstamo indicado no existe.');
+    END IF;
+
+    ------------------------------------------------------------------
+    -- Abrir cursor con los abonos del préstamo
+    ------------------------------------------------------------------
+    OPEN o_cursor FOR
+        SELECT
+            id_abono,
+            id_prestamo,
+            id_transaccion,
+            monto_abono,
+            fecha_abono,
+            tipo_abono
+        FROM abono_extraordinario
+        WHERE id_prestamo = p_id_prestamo
+        ORDER BY fecha_abono;
+
+END pr_listar_abonos;
 
 END pkgc_abonos;
 
